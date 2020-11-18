@@ -7,12 +7,12 @@ import com.tca.entity.TimeCard;
 
 public interface TimeCardService {
 
-	int saveTimeEntry(TimeCard man);
+	TimeCard saveTimeEntry(TimeCard man);
 
-	int removeEntry(int timeCardId);
+	void removeEntry(int timeCardId);
 
-	int updateEntries(TimeCard tca);
+	int updateEntries(int id,TimeCard tca);
 
-	List<TimeCard> displayEntries(TimeCard employee);
+	List<TimeCard> displayEntries(int employeeId);
 
 }

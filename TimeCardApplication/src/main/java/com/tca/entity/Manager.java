@@ -1,7 +1,8 @@
 package com.tca.entity;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,34 +22,33 @@ import javax.persistence.Table;
  * "Manager.", query =
  * "SELECT t FROM EmployeeAccount t where t.userId=:emp and t.password=:pwd")
  * //})
- */public class Manager extends Employee{
+ */public class Manager implements Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	@Id	
+	@Id
 	@Column(name="MAN_ID")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int managerID;
+	private int managerId;
 	
-	@OneToMany(mappedBy = "MANAGER",
+	@OneToMany(mappedBy = "manager",
 	           cascade = CascadeType.ALL,
 	           orphanRemoval = true)
-	private List<Employee> emps = new ArrayList<>();
+	private Set<Employee> emps;
 	
-	public int getManagerID() {
-		return managerID;
+	public int getmanagerId() {
+		return managerId;
 	}
-	public void setManagerID(int managerID) {
-		this.managerID = managerID;
+	public void setmanagerId(int managerId) {
+		this.managerId = managerId;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + managerID;
+		result = prime * result + managerId;
 		return result;
 	}
 	@Override
@@ -59,11 +59,11 @@ import javax.persistence.Table;
 			return false;
 		
 		Manager other = (Manager) obj;
-		return (managerID != other.managerID);
+		return (managerId != other.managerId);
 	}
 	@Override
 	public String toString() {
-		return "Manager [managerID=" + managerID + ", emps=" + emps + "]";
+		return "Manager [managerId=" + managerId + ", emps=" + emps + "]";
 	}
 
 	

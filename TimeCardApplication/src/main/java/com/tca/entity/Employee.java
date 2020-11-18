@@ -10,13 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="EMPLOYEE")
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @SequenceGenerator(name="seq", initialValue=100000, allocationSize=100)
 public class Employee implements Serializable{
 
@@ -34,8 +34,9 @@ public class Employee implements Serializable{
 	private String phoneNumber;
 	@Column(name="EMP_EMAIL")
 	private String employeeEmail;
-	@ManyToOne(fetch = FetchType.LAZY)
-    private Manager manager;
+	@ManyToOne
+	@JoinColumn(name="MAN_ID")
+	private Manager manager;
 	
 	
 	public int getEmployeeId() {
