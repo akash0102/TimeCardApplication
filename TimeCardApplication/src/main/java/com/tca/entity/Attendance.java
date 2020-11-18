@@ -75,7 +75,7 @@ public class Attendance implements Serializable{
 	}
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
-	}
+	} //testtt
 	public String getStatus() {
 		return status;
 	}
