@@ -1,4 +1,4 @@
-package com.cg.tca.util;
+package com.tca.util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
