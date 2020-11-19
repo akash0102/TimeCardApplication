@@ -1,4 +1,4 @@
-package com.tca.dao;
+package com.tca.repository;
 
 import java.time.LocalTime;
 import java.util.List;

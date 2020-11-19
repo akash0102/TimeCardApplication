@@ -1,4 +1,4 @@
-package com.tca.dao;
+package com.tca.repository;
 
 import org.apache.log4j.Logger;
 

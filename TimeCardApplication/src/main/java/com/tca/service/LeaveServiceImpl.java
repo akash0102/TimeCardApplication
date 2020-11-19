@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.tca.dao.LeaveDao;
 import com.tca.entity.DateId;
 import com.tca.entity.Employee;
 import com.tca.entity.Leave;
+import com.tca.repository.LeaveDao;
 
 
 public class LeaveServiceImpl implements LeaveService {

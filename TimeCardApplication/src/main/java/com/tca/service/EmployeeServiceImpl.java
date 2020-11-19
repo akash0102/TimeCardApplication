@@ -1,7 +1,7 @@
 package com.tca.service;
 
-import com.tca.dao.EmployeeDao;
 import com.tca.entity.Employee;
+import com.tca.repository.EmployeeDao;
 
 public class EmployeeServiceImpl implements EmployeeService {
 	

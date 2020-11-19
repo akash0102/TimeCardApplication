@@ -1,4 +1,4 @@
-package com.tca.dao;
+package com.tca.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,14 +16,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.tca.entity.Employee;
 import com.tca.entity.TimeCard;
+import com.tca.repository.TimeCardRepository;
 
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-class TimeCardDaoTest {
+class TimeCardRepositoryTest {
 	
 	@Autowired
-	private TimeCardDao tcarddao;
+	private TimeCardRepository tcarddao;
 	
 	@Autowired
 	private TestEntityManager tenman;

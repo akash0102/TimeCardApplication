@@ -2,7 +2,7 @@ package com.tca.service;
 
 import java.util.List;
 
-import com.tca.dao.ManagerDao;
+import com.tca.repository.ManagerDao;
 
 public class ManagerServiceImpl implements ManagerService {
 
