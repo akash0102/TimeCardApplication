@@ -39,7 +39,19 @@ public class TimeCard implements Serializable{
 	private LocalTime timeExit;
 	@Column(name="STATUS")
 	private String status;
-
+	
+	
+	public TimeCard() {
+		super();
+	}
+	public TimeCard(Employee employee, LocalDate date, LocalTime timeEntry, LocalTime timeExit, String status) {
+		super();
+		this.employee = employee;
+		this.date = date;
+		this.timeEntry = timeEntry;
+		this.timeExit = timeExit;
+		this.status = status;
+	}
 	public int getTimeCardId() {
 		return timeCardId;
 	}
