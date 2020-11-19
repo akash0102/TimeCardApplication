@@ -7,6 +7,8 @@ import java.time.LocalTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
@@ -23,7 +25,9 @@ public class TimeCard implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	private int timeCardID;
+	@Column(name="TIME_CARDID")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int timeCardId;
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="EMP_ID")
 	private Employee employee;
@@ -36,11 +40,11 @@ public class TimeCard implements Serializable{
 	@Column(name="STATUS")
 	private String status;
 
-	public int getTimeCardID() {
-		return timeCardID;
+	public int getTimeCardId() {
+		return timeCardId;
 	}
-	public void setTimeCardID(int timeCardID) {
-		this.timeCardID = timeCardID;
+	public void setTimeCardId(int timeCardId) {
+		this.timeCardId = timeCardId;
 	}
 	public Employee getEmployee() {
 		return employee;
@@ -75,7 +79,7 @@ public class TimeCard implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "TimeCard [timeCardID=" + timeCardID + ", employee=" + employee + ", date=" + date + ", timeEntry="
+		return "TimeCard [timeCardId=" + timeCardId + ", employee=" + employee + ", date=" + date + ", timeEntry="
 				+ timeEntry + ", timeExit=" + timeExit + ", status=" + status + "]";
 	}
 

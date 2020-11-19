@@ -30,16 +30,19 @@ public class TimeCardController {
 		return ResponseEntity.ok().body(timecard);
 	}
 	
-	
 	@PostMapping("/employee")
 	public ResponseEntity<TimeCard> createEmployee( @RequestBody Employee employee) {
 		TimeCard tc=new TimeCard();
 		tc.setEmployee(employee);
 		tc.setStatus("Pending");
-		tc.setTimeCardID(3);
 		tc.setTimeEntry(LocalTime.MIN);
 		tc.setTimeExit(LocalTime.MAX);
 		tc.setDate(LocalDate.now());
+		System.out.println("Controller executing");
 		return ResponseEntity.ok().body(tcs.saveTimeEntry(tc));
 	}
+	
+	
+	
+	
 }

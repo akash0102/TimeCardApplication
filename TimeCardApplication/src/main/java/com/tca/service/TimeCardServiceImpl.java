@@ -38,14 +38,14 @@ public class TimeCardServiceImpl implements TimeCardService {
 		
 		if(toEdit==null) {
 			toEdit=new TimeCard();
-			toEdit.setTimeCardID(tca.getTimeCardID());
+			toEdit.setTimeCardId(tca.getTimeCardId());
 		}
 		toEdit.setEmployee(tca.getEmployee());
 		toEdit.setDate(tca.getDate());
 		toEdit.setTimeEntry(tca.getTimeEntry());
 		toEdit.setTimeExit(tca.getTimeExit());
 		daoCaller.save(toEdit);
-		return toEdit.getTimeCardID();
+		return toEdit.getTimeCardId();
 	}
 
 	@Override
