@@ -9,11 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="LEAVE")
+@NamedQuery(name = "Leave.getAllById", query = "SELECT l FROM Leave l where l.employee=:emp")
 public class Leave implements Serializable{
     
 	 /**

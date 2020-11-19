@@ -1,47 +1,86 @@
 package com.tca.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.apache.log4j.Logger;
+import javax.transaction.Transactional;
 
+//import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.tca.dao.DateRepository;
 import com.tca.dao.LeaveDao;
+import com.tca.dao.TimeCardDao;
 import com.tca.entity.DateId;
 import com.tca.entity.Employee;
 import com.tca.entity.Leave;
+import com.tca.entity.TimeCard;
+import com.tca.exception.LeaveNotFoundException;
 
 
-public class LeaveServiceImpl implements LeaveService {
-	LeaveDao daoLeave= new LeaveDao();
-	Logger log=Logger.getLogger(LeaveServiceImpl.class);
+@Service
 
-	@Override
-	public boolean addLeave(Employee emp, DateId dateId) {
-		return daoLeave.addLeaveEntry(emp,dateId);
-	}
+public class LeaveServiceImpl implements LeaveService{
+	@Autowired
+	LeaveDao leave;
+@Autowired
+DateRepository daterep;
+	Leave lea;
+	//Employee emp;
+	//DateId date;
 
-	@Override
-	public boolean findLeave(int leaveId) { 
-		
-		return daoLeave.getLeaveInfo(leaveId);
-		
+	public Leave addLeave(DateId date) {
+		//Employee emp=new Employee();
+		lea=new Leave();
+		lea.setDateId(date);
+		lea.setEmployee(date.getemployeeId());
+		lea.setStatus("Pending");
+		daterep.save(date);
+		return leave.save(lea);
+		//return true;
+
+		//lea.setEmployee(dateId.getemployeeId());
+		//lea.setDateId(dateId);
+		//lea.setStatus("Pending");
+		//leave.save(lea);
+		//return true;
+	
+		/*emp.setEmployeeId(1);
+		emp.setEmployeeName("pavan");
+		emp.setEmployeeRole("analyst");
+		emp.setEmployeeEmail("dfdffs");
+		leave.save(emp);
+		return true;*/
 	}
 
 	@Override
 	public boolean removeLeave(int leaveId) {
-		return daoLeave.cancelLeave(leaveId);
-	}
-
-	@Override
-	public List<Leave> viewAllLeaves(Employee emp) {
-		List<Leave> listAllLeave=null;
-		try {
-			listAllLeave=daoLeave.getAllLeaves(emp);
+		Optional<Leave> toDelete= leave.findById(leaveId);
+		if(toDelete.isPresent()) {
+			leave.delete(toDelete.get());	
+			
 		}
-		catch(NullPointerException e) {
-			log.debug(e);
-		}
-		return listAllLeave;
+		return true;
 	}
 	
+	
+	@Override
+	public Leave findLeave(int leaveId) { 
+		
+		
+		if (!leave.existsById(leaveId)) {
+			throw new LeaveNotFoundException("Leave with id " + leaveId + "not found");
+		}
+		return leave.getOne(leaveId);
+		
+	}
+	@Override
+	public List<Leave> findByEmpId(Employee emp) {
+		
+		return leave.findByEmpId(emp);
+		
+	}
 
 }

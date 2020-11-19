@@ -8,12 +8,12 @@ import com.tca.entity.Leave;
 
 public interface LeaveService {
 
-	boolean addLeave(Employee emp, DateId dateId);
+	public Leave addLeave(DateId date);
 
-	boolean findLeave(int leaveId);
+	public Leave findLeave(int leaveId);
 
 	boolean removeLeave(int leaveId);
 
-	List<Leave> viewAllLeaves(Employee emp);
+	List<Leave> findByEmpId(Employee emp);
 
 }
