@@ -55,7 +55,7 @@ class TimeCardDaoTest {
         tenman.remove(tcard);
 
         List<TimeCard> employees = (List<TimeCard>)  tcarddao.findAll();
-        Assert.assertEquals(employees.size(), 1);
+        Assert.assertEquals(1,employees.size());
 
     }
 }

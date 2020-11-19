@@ -26,7 +26,7 @@ public class TimeCardController {
 	@Autowired
 	private TimeCardService tcs;
 	
-	@GetMapping("/timeCard/employee/{id}")
+	@GetMapping("/timecard/employee/{id}")
 	public ResponseEntity<List<TimeCard>> getEmployeeById(@PathVariable(value = "id") int employeeId){
 		List<TimeCard> timecard = tcs.displayEntries(employeeId);
 		return ResponseEntity.ok().body(timecard);
@@ -45,12 +45,12 @@ public class TimeCardController {
 	}
 	
 	
-	@PutMapping("/timeCardEdit/{id}")
+	@PutMapping("/timecard/timeCardEdit/{id}")
 	public ResponseEntity<Integer> editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody TimeCard tc){
 		return ResponseEntity.ok(tcs.updateEntries(id, tc));		
 	}
 	
-	@DeleteMapping("/timecardDelete/{id}")
+	@DeleteMapping("/timecard/timecardDelete/{id}")
 	public ResponseEntity<Boolean> deleteTimeCard(@PathVariable("tc_id") Integer id ){
 		return ResponseEntity.ok(tcs.removeEntry(id));
 	}
