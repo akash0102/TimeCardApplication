@@ -14,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.tca.entity.DateId;
 import com.tca.entity.Employee;
 import com.tca.entity.Leave;
 import com.tca.repository.LeaveRepository;
@@ -43,11 +42,8 @@ class LeaveDaoTest {
        leave.setLeaveId(2);
        leave.setStatus("Pending");
        leave.setEmployee(new Employee());
-       DateId date=new DateId();
-       date.setDateNum(1);
-       date.setfromDate(null);
-       date.settoDate(null);
-      
+       leave.setFromDate(LocalDate.now());
+       leave.setToDate(LocalDate.MAX);
      
         Leave saveLeave=leadao.save(leave);
         assertNotNull(saveLeave);

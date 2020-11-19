@@ -1,23 +1,17 @@
 package com.tca.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
-import javax.transaction.Transactional;
 
 //import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import com.tca.entity.DateId;
 import com.tca.entity.Employee;
 import com.tca.entity.Leave;
-import com.tca.entity.TimeCard;
 import com.tca.exception.LeaveNotFoundException;
-import com.tca.repository.DateRepository;
 import com.tca.repository.LeaveRepository;
-import com.tca.repository.TimeCardRepository;
 
 
 @Service
@@ -25,19 +19,16 @@ import com.tca.repository.TimeCardRepository;
 public class LeaveServiceImpl implements LeaveService{
 	@Autowired
 	LeaveRepository leave;
-@Autowired
-DateRepository daterep;
 	Leave lea;
 	//Employee emp;
 	//DateId date;
 
-	public Leave addLeave(DateId date) {
-		//Employee emp=new Employee();
+	public Leave addLeave(LocalDate fromDate, LocalDate toDate) {
+		Employee emp=new Employee();
 		lea=new Leave();
-		lea.setDateId(date);
-		lea.setEmployee(date.getemployeeId());
+		lea.setToDate(toDate);
+		lea.setEmployee(emp);
 		lea.setStatus("Pending");
-		daterep.save(date);
 		return leave.save(lea);
 		//return true;
 

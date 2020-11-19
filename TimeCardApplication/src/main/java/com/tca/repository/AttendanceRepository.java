@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.tca.entity.Attendance;
-import com.tca.entity.DateId;
 import com.tca.entity.Employee;
 import com.tca.util.JPaUtil;
 
@@ -15,13 +14,12 @@ public class AttendanceRepository {
  
 	Logger log=Logger.getLogger(getClass());
 	
-	public boolean editAttendance(Employee empl, DateId dateId, LocalTime iTime, LocalTime oTime) {
+	public boolean editAttendance(Employee empl, LocalTime iTime, LocalTime oTime) {
 		JPaUtil.createEM();
 		boolean checker=false;
 		try {
 			Attendance att=new Attendance();
 			JPaUtil.entMan.getTransaction().begin();
-			att.setDateId(dateId);
 			att.setEmployee(empl);
 			att.setInTime(iTime); 
 			att.setOffTime(oTime);

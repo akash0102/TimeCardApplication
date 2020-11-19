@@ -1,5 +1,6 @@
 package com.tca.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tca.entity.DateId;
 import com.tca.entity.Employee;
 import com.tca.entity.Leave;
 import com.tca.entity.Manager;
@@ -27,12 +27,12 @@ public class LeaveController {
 	 //@org.springframework.beans.factory.annotation.Autowired(required=true)
 	private LeaveService leaveservice;
 	@PostMapping("/apply")
-	public Leave addLeave(@RequestBody DateId date) {
+	public Leave addLeave(@RequestBody LocalDate fromDate,@RequestBody LocalDate toDate ) {
 		
 		//date.setDateNum(2);
 		//date.setfromDate(null);
 		//date.settoDate(null);
-		return leaveservice.addLeave(date);
+		return leaveservice.addLeave(fromDate,toDate);
 	}
 	 @GetMapping("/findLeaveById/{leaveId}")
 	    public Leave findLeave(@PathVariable Integer leaveId){

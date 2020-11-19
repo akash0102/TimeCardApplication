@@ -2,17 +2,19 @@ package com.tca.entity;
 
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -29,7 +31,7 @@ public class Attendance implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	
 	private int attendanceId;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="EMP_ID")
 	private Employee employee; 
 	
@@ -39,13 +41,27 @@ public class Attendance implements Serializable{
 	@Column(name="OFF_TIME")
 	private LocalTime offTime;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="DATE_ID")
-	private DateId dateId;
+	@Column(name="FROM_DATE")
+	private LocalDate fromDate;
+	
+	@Column(name="TO_DATE")
+	private LocalDate toDate;
 	
 	@Column(name="STATUS")
 	private String status;
 	
+	public LocalDate getFromDate() {
+		return this.fromDate;
+	}
+	public void setFromDate(LocalDate fromDate) {
+		this.fromDate = fromDate;
+	}
+	public LocalDate getToDate() {
+		return toDate;
+	}
+	public void setToDate(LocalDate toDate) {
+		this.toDate = toDate;
+	}
 	public int getAttendanceId() {
 		return this.attendanceId;
 	}
@@ -64,12 +80,6 @@ public class Attendance implements Serializable{
 	public void setOffTime(LocalTime offTime) {
 		this.offTime = offTime;
 	}
-	public DateId getDateId() {
-		return this.dateId;
-	}
-	public void setDateId(DateId dateId) {
-		this.dateId = dateId;
-	}
 	public Employee getEmployee() {
 		return employee;
 	}
@@ -85,8 +95,9 @@ public class Attendance implements Serializable{
 	@Override
 	public String toString() {
 		return "Attendance [attendanceId=" + attendanceId + ", employee=" + employee + ", inTime=" + inTime
-				+ ", offTime=" + offTime + ", dateId=" + dateId + ", status=" + status + "]";
+				+ ", offTime=" + offTime + ", fromDate=" + fromDate + ", toDate=" + toDate + ", status=" + status + "]";
 	}
+	
 	
 	
 }
