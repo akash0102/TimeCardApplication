@@ -23,11 +23,12 @@ public class TimeCardServiceImpl implements TimeCardService {
 	}
 
 	@Override
-	public void removeEntry(int timeCardId) {
+	public boolean removeEntry(int timeCardId) {
 		Optional<TimeCard> toDelete= daoCaller.findById(timeCardId);
 		if(toDelete.isPresent()) {
 			daoCaller.delete(toDelete.get());	
 		}
+		return daoCaller.findById(timeCardId).isEmpty();
 	}
 	
 	@Override

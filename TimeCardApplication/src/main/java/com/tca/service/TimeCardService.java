@@ -9,7 +9,7 @@ public interface TimeCardService {
 
 	TimeCard saveTimeEntry(TimeCard man);
 
-	void removeEntry(int timeCardId);
+	boolean removeEntry(int timeCardId);
 
 	int updateEntries(int id,TimeCard tca);
 
