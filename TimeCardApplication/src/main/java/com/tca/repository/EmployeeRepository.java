@@ -1,11 +1,11 @@
-package com.tca.dao;
+package com.tca.repository;
 
 import org.apache.log4j.Logger;
 
 import com.tca.entity.Employee;
 import com.tca.util.JPaUtil;
 
-public class EmployeeDao {
+public class EmployeeRepository {
 	
 	Logger log=Logger.getLogger(getClass()); 
 	boolean check;

@@ -7,15 +7,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tca.dao.TimeCardDao;
 import com.tca.entity.TimeCard;
+import com.tca.repository.TimeCardRepository;
 
 
 @Service
 public class TimeCardServiceImpl implements TimeCardService {
 	
 	@Autowired
-	TimeCardDao daoCaller;
+	TimeCardRepository daoCaller;
 	
 	@Override
 	public TimeCard saveTimeEntry(TimeCard timeCard) {

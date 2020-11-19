@@ -5,14 +5,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.tca.dao.AttendanceDao;
 import com.tca.entity.Attendance;
 import com.tca.entity.DateId;
 import com.tca.entity.Employee;
+import com.tca.repository.AttendanceRepository;
 
 public class AttendanceServiceImpl implements AttendanceService {
 
-	AttendanceDao attDao=new AttendanceDao();
+	AttendanceRepository attDao=new AttendanceRepository();
 	Logger log=Logger.getLogger(AttendanceServiceImpl.class); 
 	
 	@Override

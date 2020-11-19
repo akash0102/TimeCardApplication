@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.tca.entity.Employee;
 import com.tca.entity.TimeCard;
+import com.tca.repository.TimeCardRepository;
 
 
 @RunWith(SpringRunner.class)
@@ -23,7 +24,7 @@ import com.tca.entity.TimeCard;
 class TimeCardDaoTest {
 	
 	@Autowired
-	private TimeCardDao tcarddao;
+	private TimeCardRepository tcarddao;
 	
 	@Autowired
 	private TestEntityManager tenman;

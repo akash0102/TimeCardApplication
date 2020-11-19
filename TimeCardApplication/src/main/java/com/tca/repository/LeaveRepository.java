@@ -1,4 +1,4 @@
-package com.tca.dao;
+package com.tca.repository;
 //import java.time.LocalDateTime;
 //import java.util.List;
 
@@ -14,7 +14,7 @@ import com.tca.entity.Employee;
 import com.tca.entity.Leave;
 import com.tca.entity.TimeCard;
 @Repository
-public interface LeaveDao extends JpaRepository<Leave, Integer>{
+public interface LeaveRepository extends JpaRepository<Leave, Integer>{
 	@Query("select l from Leave l where l.employee=:emp")
     List<Leave> findByEmpId(Employee emp);
 	@Query("select l from Leave l where l.employee=(select emp from Employee emp where emp.employeeId=:empId)")

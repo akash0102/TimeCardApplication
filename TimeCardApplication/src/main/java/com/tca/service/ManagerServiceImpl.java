@@ -2,11 +2,11 @@ package com.tca.service;
 
 import java.util.List;
 
-import com.tca.dao.ManagerDao;
+import com.tca.repository.ManagerRepository;
 
 public class ManagerServiceImpl implements ManagerService {
 
-	ManagerDao mDao=new ManagerDao();
+	ManagerRepository mDao=new ManagerRepository();
 	
 	@Override
 	public List<Object> viewRequests() {

@@ -1,4 +1,4 @@
-package com.tca.dao;
+package com.tca.repository;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import com.tca.entity.Employee;
 import com.tca.entity.TimeCard;
 
 @Repository
-public interface TimeCardDao extends JpaRepository<TimeCard, Integer>{
+public interface TimeCardRepository extends JpaRepository<TimeCard, Integer>{
 	
 	@Query("select tc from TimeCard tc where tc.employee=:emp")
     List<TimeCard> findByEmp(Employee emp);

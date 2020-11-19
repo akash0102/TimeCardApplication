@@ -17,12 +17,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.tca.entity.DateId;
 import com.tca.entity.Employee;
 import com.tca.entity.Leave;
+import com.tca.repository.LeaveRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 class LeaveDaoTest {
 	@Autowired
-	private LeaveDao leadao;
+	private LeaveRepository leadao;
 	
 	@Autowired
 	private TestEntityManager tenman;

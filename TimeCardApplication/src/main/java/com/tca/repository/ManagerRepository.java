@@ -1,4 +1,4 @@
-package com.tca.dao;
+package com.tca.repository;
 
 
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 
 
 
-public class ManagerDao {
+public class ManagerRepository {
 	
 	public boolean resolveReq(Object obj) {
 		obj.getClass();

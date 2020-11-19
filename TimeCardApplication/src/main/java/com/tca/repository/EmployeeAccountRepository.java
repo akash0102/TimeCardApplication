@@ -1,10 +1,10 @@
-package com.tca.dao;
+package com.tca.repository;
 
 import com.tca.entity.Employee;
 import com.tca.entity.EmployeeAccount;
 import com.tca.util.JPaUtil;
 
-public class EmployeeAccountDao {
+public class EmployeeAccountRepository {
 	
 	public Employee login(EmployeeAccount empacct) {
 		JPaUtil.createEM();

@@ -1,4 +1,4 @@
-package com.tca.dao;
+package com.tca.repository;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -11,7 +11,7 @@ import com.tca.entity.Employee;
 import com.tca.util.JPaUtil;
 
 
-public class AttendanceDao {
+public class AttendanceRepository {
  
 	Logger log=Logger.getLogger(getClass());
 	

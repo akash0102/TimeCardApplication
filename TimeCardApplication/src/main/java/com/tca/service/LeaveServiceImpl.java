@@ -10,21 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.tca.dao.DateRepository;
-import com.tca.dao.LeaveDao;
-import com.tca.dao.TimeCardDao;
 import com.tca.entity.DateId;
 import com.tca.entity.Employee;
 import com.tca.entity.Leave;
 import com.tca.entity.TimeCard;
 import com.tca.exception.LeaveNotFoundException;
+import com.tca.repository.DateRepository;
+import com.tca.repository.LeaveRepository;
+import com.tca.repository.TimeCardRepository;
 
 
 @Service
 
 public class LeaveServiceImpl implements LeaveService{
 	@Autowired
-	LeaveDao leave;
+	LeaveRepository leave;
 @Autowired
 DateRepository daterep;
 	Leave lea;

@@ -1,11 +1,11 @@
 package com.tca.service;
 
-import com.tca.dao.EmployeeDao;
 import com.tca.entity.Employee;
+import com.tca.repository.EmployeeRepository;
 
 public class EmployeeServiceImpl implements EmployeeService {
 	
-	EmployeeDao empDao=new EmployeeDao();
+	EmployeeRepository empDao=new EmployeeRepository();
 	
 	@Override
 	public boolean viewDetails(Employee employee) {
