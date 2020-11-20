@@ -20,7 +20,7 @@ import com.tca.entity.TimeCard;
 import com.tca.service.TimeCardService;
 
 @RestController
-@RequestMapping("/timecard")
+@RequestMapping("/api/v2/timecard")
 public class TimeCardController {
 
 	@Autowired

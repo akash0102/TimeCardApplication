@@ -2,6 +2,7 @@ package com.tca.controller;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,13 +19,13 @@ import com.tca.entity.Employee;
 import com.tca.service.EmployeeService;
 
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v2/Employee")
 public class EmployeeController {
 	
 	@Autowired
 	private EmployeeService employeeService;
 
-	@GetMapping("/Employee")
+	@GetMapping("/all")
 	public List<Employee> getAllEmployee() {
 		return employeeService.getAllEmployee();
 	} 
@@ -34,7 +35,7 @@ public class EmployeeController {
 		return employeeService.createEmployee(employee);
 	} 
 	
-	@PutMapping("/Employee/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<ResponseEntity<Employee>> updateEmployee(@PathVariable(value = "id") Integer employeeId,
 			 @RequestBody Employee employeeDetails) throws ResourceNotFoundException {
 		ResponseEntity<Employee>  employee = employeeService.updateEmployee(employeeId, employeeDetails);

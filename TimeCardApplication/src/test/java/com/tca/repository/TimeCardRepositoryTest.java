@@ -1,12 +1,15 @@
 package com.tca.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,39 +26,65 @@ import com.tca.entity.TimeCard;
 class TimeCardRepositoryTest {
 	
 	@Autowired
-	private TimeCardRepository tcarddao;
+	private TimeCardRepository tcardRepo;
 	
 	@Autowired
 	private TestEntityManager tenman;
 	
+	private TimeCard tcard1,tcard2;
+	
+	
+	@BeforeEach
+	void setUp() throws Exception {
+		tcard1=new TimeCard(new Employee(),LocalDate.now(),LocalTime.parse("10:02:03.000"),LocalTime.parse("22:02:45.000"),"Pending");
+    	tcard2=new TimeCard(new Employee(),LocalDate.now(),LocalTime.parse("08:32:51.000"),LocalTime.parse("19:04:37.000"),"Pending");
+        tenman.persist(tcard2);
+	}
+	
+	@AfterEach
+	void tearDown() throws Exception{
+		tcard1=null;
+		tcard2=null;
+		
+	}
+	
 	@Test
     void testCreateTimeCard() throws Exception{
-        TimeCard tcard=new TimeCard();
-        tcard.setDate(LocalDate.now());
-        tcard.setEmployee(new Employee());
-        tcard.setStatus("Pending");
-        tcard.setTimeCardId(01222);
-        tcard.setTimeEntry(LocalTime.NOON);
-        tcard.setTimeExit(LocalTime.MIDNIGHT);
-        TimeCard savedTimeCard=tcarddao.save(tcard);
+        TimeCard savedTimeCard=tcardRepo.save(tcard1);
         assertNotNull(savedTimeCard);
+        assertEquals(savedTimeCard,tcard1);
     }
 	
 	@Test
     void testDeleteTimeCard() throws Exception{
-		
-    	TimeCard tcard1=new TimeCard(new Employee(),LocalDate.now(),LocalTime.parse("10:02:03.000"),LocalTime.parse("22:02:45.000"),"Pending");
-    	TimeCard tcard2=new TimeCard(new Employee(),LocalDate.now(),LocalTime.parse("08:32:51.000"),LocalTime.parse("19:04:37.000"),"Pending");
-        TimeCard tcard = tenman.persist(tcard1);
-        tenman.persist(tcard2);
+		TimeCard tcard = tenman.persist(tcard1);
 
         //delete one ticket DB
-        tenman.remove(tcard);
+        tcardRepo.delete(tcard);
 
-        List<TimeCard> employees = (List<TimeCard>)  tcarddao.findAll();
-        Assert.assertEquals(1,employees.size());
-
+        List<TimeCard> employees = (List<TimeCard>)  tcardRepo.findAll();
+        assertEquals(1,employees.size());
     }
 	
+	@Test
+	void testFindAll() throws Exception{
+		List<TimeCard> listOfEmps=new ArrayList<>();
+        tenman.persist(tcard1);
+        assertNotNull(tcardRepo.findAll());
+        listOfEmps.add(tcard1);
+        listOfEmps.add(tcard2);
+        assertThat(tcardRepo.findAll()).isEqualTo(listOfEmps);
+	}
 	
+	@Test
+	void testFindEmp() throws Exception{
+		
+		tenman.persist(tcard2);
+		
+		assertNotNull(tcardRepo.findByEmp(new Employee()));
+		
+		
+		
+		
+	}
 }

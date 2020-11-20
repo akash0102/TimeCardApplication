@@ -14,24 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tca.entity.Employee;
 import com.tca.entity.Leave;
-import com.tca.entity.Manager;
 import com.tca.service.LeaveService;
 
 
 
 
 @RestController
-@RequestMapping("/leave")
+@RequestMapping("/api/v2/leave")
 public class LeaveController {
 	@Autowired
-	 //@org.springframework.beans.factory.annotation.Autowired(required=true)
 	private LeaveService leaveservice;
 	@PostMapping("/apply")
 	public Leave addLeave(@RequestBody LocalDate fromDate,@RequestBody LocalDate toDate ) {
-		
-		//date.setDateNum(2);
-		//date.setfromDate(null);
-		//date.settoDate(null);
 		return leaveservice.addLeave(fromDate,toDate);
 	}
 	 @GetMapping("/findLeaveById/{leaveId}")

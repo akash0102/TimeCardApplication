@@ -23,7 +23,7 @@ import com.tca.service.LeaveService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = LeaveController.class)
-public class LeaveControllerTest {
+class LeaveControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,7 +50,7 @@ public class LeaveControllerTest {
         Assert.assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
     }*/
     @Test
-    public void testRemoveLeave() throws Exception{
+    void testRemoveLeave() throws Exception{
         String URI = "/leave/deleteLeaveById/leaveId/{leaveId}";
         Leave lea=new Leave();
         lea.setLeaveId(2);

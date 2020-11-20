@@ -33,7 +33,7 @@ class LeaveRepositoryTest {
 
 
 	@Test
-    public void testaddLeave() throws Exception{
+    void testaddLeave() throws Exception{
        Leave leave=new Leave();
        leave.setLeaveId(2);
        leave.setStatus("Pending");

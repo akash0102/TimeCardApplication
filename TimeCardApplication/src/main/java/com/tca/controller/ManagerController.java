@@ -19,7 +19,7 @@ import com.tca.service.ManagerService;
 
 
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v2/Manager")
 public class ManagerController {
 	
 	@Autowired
@@ -30,7 +30,7 @@ public class ManagerController {
 		return managerService.createManager(manager);
 	} 
 	
-	@PutMapping("/Manager/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<ResponseEntity<Manager>> updateManager(@PathVariable(value = "id") Integer managerId,
 			 @RequestBody Manager managerDetails) throws ResourceNotFoundException {
 		ResponseEntity<Manager> manager = managerService.updateManager(managerId, managerDetails);
@@ -38,14 +38,14 @@ public class ManagerController {
 	}
 
 
-	@DeleteMapping("/Manager/{id}")	
+	@DeleteMapping("/{id}")	
 	public ResponseEntity<Boolean> deleteManager(@PathVariable(value = "id") Integer managerId) throws ResourceNotFoundException	{
 		
 		boolean manager = managerService.deleteManager(managerId);
 		return  ResponseEntity.ok(manager);
 	}
 	
-	@GetMapping("/Manager")
+	@GetMapping("/all")
 	public List<Manager> getAllManager() {
 		return managerService.getAllManager();
 	} 

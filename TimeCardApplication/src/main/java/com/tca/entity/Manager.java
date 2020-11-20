@@ -9,28 +9,36 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
-@Entity
-@Table(name="MANAGER")   //additional column to differ parent and child
+   //additional column to differ parent and child
 /*	
  * //@NamedQueries({ // @NamedQuery(name = "Manager.getList", query =
  * "SELECT t FROM Manager t where t.emp=:emp"), // @NamedQuery(name =
  * "Manager.", query =
  * "SELECT t FROM EmployeeAccount t where t.userId=:emp and t.password=:pwd")
  * //})
- */public class Manager extends Employee implements Serializable{
+ */
+@Entity
+@Table(name="MANAGER")
+public class Manager{
 	
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(name="MAN_ID")
+	@Column(name="MAN_ID",insertable = false,updatable = false)
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int managerId;
+	@OneToOne
+	@JoinColumn(name="EMP_ID")
+	private Employee empl;
 	
 	@OneToMany(mappedBy = "manager",
 	           cascade = CascadeType.ALL,

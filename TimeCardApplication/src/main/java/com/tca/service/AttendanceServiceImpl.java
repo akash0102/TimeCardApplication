@@ -17,19 +17,12 @@ public class AttendanceServiceImpl implements AttendanceService {
 	
 	@Override
 	public boolean manualAttendance(Employee empl, LocalDate toDate, LocalDate fromDate, LocalTime iTime, LocalTime oTime) {
-		return attDao.editAttendance(empl,iTime, oTime);
+		return false;
 	}
 	
 	@Override
 	public List<Attendance> viewAllDetails(Employee empl) {
-		List<Attendance> listAttendance=null;
-		try {
-		 listAttendance=attDao.getAlldetails(empl);
-		} 
-		catch(Exception e) {
-			log.debug(e);
-		}
-		return listAttendance;
+		return null;
 	}
 
 }
