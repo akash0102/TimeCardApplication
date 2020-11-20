@@ -1,28 +1,18 @@
 package com.tca.repository;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.tca.entity.Manager;
 
 
+@Repository
+public interface ManagerRepository extends  JpaRepository<Manager, Integer>  {
 
-public class ManagerRepository {
+//	@Query("select t from Manager t where t.email=:email")
+//    Manager findByEmail(String email);
+
 	
-	public boolean resolveReq(Object obj) {
-		obj.getClass();
-		
-		
-		return false;
-		
-	}
-	
-	
-	
-
-
-	public List<Object> getRequests() {
-		List<Object> newObj=new ArrayList<>();
-		newObj.add(null);
-		return newObj;
-	}
 }

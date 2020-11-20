@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
@@ -14,6 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="EMPLOYEE")
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @SequenceGenerator(name="seq", initialValue=100000, allocationSize=100)
 public class Employee implements Serializable{
 

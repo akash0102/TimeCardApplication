@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * "Manager.", query =
  * "SELECT t FROM EmployeeAccount t where t.userId=:emp and t.password=:pwd")
  * //})
- */public class Manager implements Serializable{
+ */public class Manager extends Employee implements Serializable{
 	
 	/**
 	 * 
@@ -37,6 +37,12 @@ import javax.persistence.Table;
 	           orphanRemoval = true)
 	private Set<Employee> emps;
 	
+	public Set<Employee> getEmps() {
+		return emps;
+	}
+	public void setEmps(Set<Employee> emps) {
+		this.emps = emps;
+	}
 	public int getmanagerId() {
 		return managerId;
 	}

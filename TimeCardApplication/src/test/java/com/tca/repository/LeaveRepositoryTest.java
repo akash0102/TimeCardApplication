@@ -1,12 +1,9 @@
-package com.tca.dao;
+package com.tca.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +13,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.tca.entity.Employee;
 import com.tca.entity.Leave;
-import com.tca.repository.LeaveRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-class LeaveDaoTest {
+class LeaveRepositoryTest {
 	@Autowired
 	private LeaveRepository leadao;
 	

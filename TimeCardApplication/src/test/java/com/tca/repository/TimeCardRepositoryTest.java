@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.tca.entity.Employee;
 import com.tca.entity.TimeCard;
-import com.tca.repository.TimeCardRepository;
 
 
 @RunWith(SpringRunner.class)
@@ -30,7 +29,7 @@ class TimeCardRepositoryTest {
 	private TestEntityManager tenman;
 	
 	@Test
-    public void testCreateTimeCard() throws Exception{
+    void testCreateTimeCard() throws Exception{
         TimeCard tcard=new TimeCard();
         tcard.setDate(LocalDate.now());
         tcard.setEmployee(new Employee());
@@ -43,12 +42,10 @@ class TimeCardRepositoryTest {
     }
 	
 	@Test
-    public void testDeleteTimeCard() throws Exception{
-    	 TimeCard tcard1=new TimeCard(new Employee(),LocalDate.now(),LocalTime.parse("10:02:04:0000"),LocalTime.parse("22:02:04:0000"),"Pending");
-    	 TimeCard tcard2=new TimeCard(new Employee(),LocalDate.now(),LocalTime.parse("08:32:84:0000"),LocalTime.parse("19:04:34:0000"),"Pending");
-    	 
-    	 
-   
+    void testDeleteTimeCard() throws Exception{
+		
+    	TimeCard tcard1=new TimeCard(new Employee(),LocalDate.now(),LocalTime.parse("10:02:03.000"),LocalTime.parse("22:02:45.000"),"Pending");
+    	TimeCard tcard2=new TimeCard(new Employee(),LocalDate.now(),LocalTime.parse("08:32:51.000"),LocalTime.parse("19:04:37.000"),"Pending");
         TimeCard tcard = tenman.persist(tcard1);
         tenman.persist(tcard2);
 
@@ -59,4 +56,6 @@ class TimeCardRepositoryTest {
         Assert.assertEquals(1,employees.size());
 
     }
+	
+	
 }
