@@ -18,7 +18,7 @@ public interface LeaveRepository extends JpaRepository<Leave, Integer>{
 	@Query("select l from Leave l where l.employee=:emp")
     List<Leave> findByEmpId(Employee emp);
 	@Query("select l from Leave l where l.employee=(select emp from Employee emp where emp.employeeId=:empId)")
-	List<TimeCard> findByEmpId(int empId);
+	List<Leave> findByEmpId(int empId);
 	//public boolean addLeave(Employee emp, DateId dateId);
 
 	/*public boolean findLeave(int leaveId);
