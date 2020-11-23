@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.tca.entity.Employee;
 import com.tca.entity.TimeCard;
+import com.tca.exception.ResourceNotFoundException;
 import com.tca.repository.TimeCardRepository;
 
 
@@ -97,37 +98,49 @@ class TimeCardServiceImplTest {
 		Mockito.when(tcardservice.displayEntries(3)).thenReturn(checkList);
 		assertThat(tcardservice.displayEntries(3)).isNotEqualTo(newlist);
 	}
-			/*
-		 * tcardservice.displayEntries(employeeId)
-		 * tcardservice.removeEntry(timeCardId)
-		 * tcardservice.updateEntries(id, tca)
-		 */
+		
 	
 	
 	
 	@Test
 	void testRemoveEntry() {
 		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca));
-		assertThat(tcardservice.removeEntry(tca.getTimeCardId())).isFalse();
+		try {
+			assertThat(tcardservice.removeEntry(tca.getTimeCardId())).isFalse();
+		} catch (ResourceNotFoundException e) {
+			assertThat(e.getMessage()).isEqualTo("TimeCard not found for this id :: " + tca.getTimeCardId());
+		}
 	}
 	  
 	@Test
 	void testFailRemoveEntry() {
 		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca));
-		assertThat(tcardservice.removeEntry(3)).isTrue();
+		try {
+			assertThat(tcardservice.removeEntry(3)).isTrue();
+		} catch (ResourceNotFoundException e) {
+			assertThat(e.getMessage()).isEqualTo("TimeCard not found for this id :: " + tca.getTimeCardId());
+		}
 	}
 	
 	@Test
 	void testUpdate(){
 		tca.setTimeCardId(3);
 		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca));
-		assertThat(tcardservice.updateEntries(0, tca)).isEqualTo(3);
+		try {
+			assertThat(tcardservice.updateEntries(0, tca)).isEqualTo(3);
+		} catch (ResourceNotFoundException e) {
+			assertThat(e.getMessage()).isEqualTo("TimeCard not found for this id :: " + tca.getTimeCardId());
+		}
 	}
 	
 	@Test
 	void testUpdateFail() {
 		tca.setTimeCardId(4);
 		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca));
-		assertThat(tcardservice.updateEntries(4, tca)).isNotZero();
+		try {
+			assertThat(tcardservice.updateEntries(4, tca)).isNotZero();
+		} catch (ResourceNotFoundException e) {
+			assertThat(e.getMessage()).isEqualTo("TimeCard not found for this id :: " + tca.getTimeCardId());
+		}
 	}
 }

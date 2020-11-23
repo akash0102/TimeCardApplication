@@ -38,20 +38,15 @@ public class LeaveServiceImpl implements LeaveService{
 	
 	
 	@Override
-	public int updateLeave(int leaveId,LocalDate fromDate, LocalDate toDate) {
+	public int updateLeave(int leaveId,LocalDate fromDate, LocalDate toDate) throws ResourceNotFoundException {
 		
-		Optional<Leave> leave=leaveRep.findById(leaveId);
-		Leave toEdit=(leave.isPresent())?leave.get():null;
+		Leave leave=leaveRep.findById(leaveId).orElseThrow(() -> new ResourceNotFoundException("Leave not found for this id :: " + leaveId));
+
+		leave.setFromDate(fromDate);
+		leave.setToDate(toDate);
 		
-		if(toEdit==null) {
-			toEdit=new Leave();
-			toEdit.setLeaveId(leaveId);
-		}
-		toEdit.setFromDate(fromDate);
-		toEdit.setToDate(toDate);
-		
-		leaveRep.save(toEdit);
-		return toEdit.getLeaveId();
+		leaveRep.save(leave);
+		return leave.getLeaveId();
 	}
 	
 	@Override
@@ -63,9 +58,9 @@ public class LeaveServiceImpl implements LeaveService{
 
 
 	@Override
-	public Leave findLeave(int leaveId) {
-		Leave leave=leaveRep.findById(leaveId).orElseThrow();
-		return leave;
+	public Leave findLeave(int leaveId) throws ResourceNotFoundException {
+		
+		return leaveRep.findById(leaveId).orElseThrow(() -> new ResourceNotFoundException("Leave not found for this id :: " + leaveId));
 	}
 
 	

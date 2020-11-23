@@ -117,7 +117,7 @@ class EmployeeControllerTest {
 	    	employee.setPhoneNumber("9550355319");
 	    	 String jsonInput = this.converttoJson(employee);
 	    	 
-	    	Mockito.when(employeeService.updateEmployee(Mockito.any(), Mockito.any())).thenReturn(ResponseEntity.ok(employee));
+	    	Mockito.when(employeeService.updateEmployee(Mockito.any(), Mockito.any())).thenReturn(employee);
 	    	 MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3).accept(MediaType.APPLICATION_JSON).content(jsonInput).contentType(MediaType.APPLICATION_JSON))
 	                 .andReturn();
 	         MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();

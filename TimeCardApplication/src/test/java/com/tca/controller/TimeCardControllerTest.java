@@ -3,6 +3,8 @@ package com.tca.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +14,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tca.entity.Employee;
 import com.tca.entity.Manager;
+import com.tca.entity.TimeCard;
 import com.tca.service.ManagerService;
+import com.tca.service.TimeCardService;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,24 +37,40 @@ class TimeCardControllerTest {
     private MockMvc mockMvc;
 	
 	@MockBean
-    private ManagerService managerService;
+    private TimeCardService tcardService;
+	
+	Employee emp;
+	TimeCard tcard;
+	
+	@BeforeEach
+	void setUp() throws Exception {
+		emp=new Employee();
+		tcard=new TimeCard();
+		emp.setEmployeeId(100);
+		emp.setEmployeeName("RAJU");
+		emp.setEmployeeEmail("chiku@gmail.com");
+		emp.setPhoneNumber("08512518301");
+		tcard.setDate(LocalDate.now());
+		tcard.setTimeEntry(LocalTime.MIN);
+		tcard.setTimeExit(LocalTime.MAX);
+		tcard.setEmployee(emp);
+	}
+	
+	@AfterEach
+	void tearDown() throws Exception{
+		emp=null;
+		tcard=null;
+	}
 	
 	 @Test
-	   public void testNewManager() throws Exception{
-		  String URI = "/api/v2/CreateManager";
-		  Manager manager=new Manager();
-		  Employee emp=new Employee();
-		  emp.setEmployeeName("RAJU");
-		  emp.setEmployeeEmail("chiku@gmail.com");
-		  emp.setPhoneNumber("08512518301");
-		  manager.setManagerId(2);
-		  manager.setEmpl(emp);
-		  String jsonInput = this.converttoJson(manager);
+	   public void testAddTimeCard() throws Exception{
+		  String URI = "/api/v2/timecard/employee/";
+		  String jsonInput = this.converttoJson(tcard);
 
-		  Mockito.when(managerService.createManager(manager)).thenReturn(manager);
+		  Mockito.when(tcardService.saveTimeEntry(tcard)).thenReturn(tcard);
 		  MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
-				    		.post(URI).accept(MediaType.APPLICATION_JSON).content(jsonInput).
-				    		contentType(MediaType.APPLICATION_JSON)).andReturn();
+				    		.post(URI).accept(MediaType.APPLICATION_JSON).content(jsonInput)
+				    		.contentType(MediaType.APPLICATION_JSON)).andReturn();
 		  MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 	      String jsonOutput = mockHttpServletResponse.getContentAsString();
 	      assertThat(jsonInput).isEqualTo(jsonOutput);
@@ -56,39 +78,37 @@ class TimeCardControllerTest {
 	 }
 	 
 	 @Test
-	 public void testDeleteManagerById() throws Exception{
-		 String URI = "/api/v2/Manager/{id}";
-		  Manager manager=new Manager();
-	    	manager.setManagerId(1);
-	    	Employee emp=new Employee();
-			emp.setEmployeeName("MARINA");
-			emp.setEmployeeEmail("s@gmail.com");
-			emp.setPhoneNumber("08512");
-			manager.setEmpl(emp);
-			String jsonInput = this.converttoJson(manager);
-	    	managerService.deleteManager(manager.getManagerId());
-	    	Mockito.when(managerService.deleteManager(Mockito.any())).thenReturn(true);
-			MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3)
-				 			.accept(MediaType.APPLICATION_JSON)
+	 public void testViewEmployee() throws Exception{
+		 String URI = "/api/v2/timecard/employee/{id}";
+		 String jsonInput = this.converttoJson(tcard);
+		 TimeCard newCard=new TimeCard();
+		 newCard.setEmployee(emp);
+		 newCard.setDate(LocalDate.of(2020, 05, 17));
+		 newCard.setTimeEntry(LocalTime.of(9, 03));
+		 newCard.setTimeExit(LocalTime.of(18, 35));
+		 ArrayList<TimeCard> checklist=new ArrayList<>();
+		 checklist.add(tcard);
+		 checklist.add(newCard);
+	     Mockito.when(tcardService.displayEntries(emp.getEmployeeId())).thenReturn(checklist);
+		 MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 100)
+		 		 			.accept(MediaType.APPLICATION_JSON)
 				 			.content(jsonInput).contentType(MediaType.APPLICATION_JSON))
 				 			.andReturn();
-			MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
-			String jsonOutput = mockHttpServletResponse.getContentAsString();
-		
-		 	assertThat(jsonInput).isEqualTo(jsonOutput);  	 
+		 MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+		 String jsonOutput = mockHttpServletResponse.getContentAsString();
+		 
+		 assertThat(jsonInput).isEqualTo(jsonOutput);  	 
 	 }
 	 @Test
-	 public void testUpdateManagerById() throws Exception{
-		 String URI= "/api/v2/Manager/{id}";
-		 Manager manager=new Manager();
-		 manager.setManagerId(1);
-		 Employee emp=new Employee();
-		 emp.setEmployeeName("MARINA");
-		 emp.setEmployeeEmail("marinas@gmail.com");
-		 emp.setPhoneNumber("08512");
-		 manager.setEmpl(emp);
-		 String jsonInput = this.converttoJson(manager);
-		 Mockito.when(managerService.updateManager(Mockito.any(), Mockito.any())).thenReturn(manager);
+	 public void testUpdateTimeCradByEmpId() throws Exception{
+		 String URI= "/api/v2/timeCardEdit/{id}";
+		 TimeCard newCard=new TimeCard();
+		 newCard.setEmployee(emp);
+		 newCard.setDate(LocalDate.of(2020, 05, 17));
+		 newCard.setTimeEntry(LocalTime.of(9, 03));
+		 newCard.setTimeExit(LocalTime.of(18, 35));
+		 String jsonInput = this.converttoJson(tcard);
+		 Mockito.when(tcardService.updateEntries(100, newCard)).thenReturn(newCard.getTimeCardId());
 		 MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3)
 				 			.accept(MediaType.APPLICATION_JSON)
 				 			.content(jsonInput).contentType(MediaType.APPLICATION_JSON))
@@ -100,31 +120,21 @@ class TimeCardControllerTest {
 	 }
 	    
 	    @Test
-	    public void testGetAllManagers() throws Exception{
+	    public void testDeleteEmployee() throws Exception{
 	    	
 	       String URI= "/api/v2/Manager";
-	    	Manager manager1=new Manager();
-	    	manager1.setManagerId(4);
-	    	Employee emp=new Employee();
-			emp.setEmployeeName("MARINA");
-			emp.setEmployeeEmail("marinas@gmail.com");
-			emp.setPhoneNumber("08512");
-			manager1.setEmpl(emp);
-	    	
-	    	Manager manager2=new Manager();
-	    	manager2.setManagerId(0);
-	    	Employee emp2=new Employee();
-			emp2.setEmployeeName("MARINA");
-			emp2.setEmployeeEmail("marinas@gmail.com");
-			emp2.setPhoneNumber("08512");
-			manager2.setEmpl(emp2);
-	    	
-	    	List<Manager> managerlist=new ArrayList<>();
-	    	managerlist.add(manager1);
-	    	managerlist.add(manager2);
-	    	
-	    	String jsonInput = this.converttoJson(managerlist);
-	    	Mockito.when(managerService.getAllManager()).thenReturn(managerlist);
+	       TimeCard newCard=new TimeCard();
+	       newCard.setEmployee(emp);
+	       newCard.setDate(LocalDate.of(2020, 05, 17));
+	       newCard.setTimeEntry(LocalTime.of(9, 03));
+	       newCard.setTimeExit(LocalTime.of(18, 35));
+	       ArrayList<TimeCard> checklist=new ArrayList<>();
+	       checklist.add(tcard);
+	       checklist.add(newCard);
+
+	    	String jsonInput = this.converttoJson(true);
+	    	Mockito.when(tcardService.removeEntry(tcard.getTimeCardId()))
+	    	.thenReturn(true);
 	    	MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
 	    			.get(URI).accept(MediaType.APPLICATION_JSON)).andReturn();
 	        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();

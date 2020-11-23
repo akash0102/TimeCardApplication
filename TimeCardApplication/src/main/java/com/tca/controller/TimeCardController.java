@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tca.entity.Employee;
 import com.tca.entity.TimeCard;
+import com.tca.exception.ResourceNotFoundException;
 import com.tca.service.TimeCardService;
 
 @RestController
@@ -26,32 +27,32 @@ public class TimeCardController {
 	@Autowired
 	private TimeCardService tcs;
 	
-	@GetMapping("/timecard/employee/{id}")
+	@GetMapping("/employee/{id}")
 	public ResponseEntity<List<TimeCard>> getEmployeeById(@PathVariable(value = "id") int employeeId){
 		List<TimeCard> timecard = tcs.displayEntries(employeeId);
 		return ResponseEntity.ok().body(timecard);
 	}
 	
 	
-	@PostMapping("/timecard/addEmployee/")
-	public ResponseEntity<TimeCard> createTimeCard( @RequestBody Employee employee) {
+	@PostMapping("/addEmployee/")
+	public ResponseEntity<TimeCard> createTimeCard( @RequestBody Employee employee,LocalDate date,LocalTime fromTime,LocalTime toTime) {
 		TimeCard tc=new TimeCard();
 		tc.setEmployee(employee);
 		tc.setStatus("Pending");
-		tc.setTimeEntry(LocalTime.MIN);
-		tc.setTimeExit(LocalTime.MAX);
-		tc.setDate(LocalDate.now());
+		tc.setTimeEntry(fromTime);
+		tc.setTimeExit(toTime);
+		tc.setDate(date);
 		return ResponseEntity.ok().body(tcs.saveTimeEntry(tc));
 	}
 	
 	
-	@PutMapping("/timecard/timeCardEdit/{id}")
-	public ResponseEntity<Integer> editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody TimeCard tc){
+	@PutMapping("/timeCardEdit/{id}")
+	public ResponseEntity<Integer> editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody TimeCard tc) throws ResourceNotFoundException{
 		return ResponseEntity.ok(tcs.updateEntries(id, tc));		
 	}
 	
-	@DeleteMapping("/timecard/timecardDelete/{id}")
-	public ResponseEntity<Boolean> deleteTimeCard(@PathVariable("tc_id") Integer id ){
+	@DeleteMapping("/timecardDelete/{id}")
+	public ResponseEntity<Boolean> deleteTimeCard(@PathVariable("tc_id") Integer id ) throws ResourceNotFoundException{
 		return ResponseEntity.ok(tcs.removeEntry(id));
 	}
 	

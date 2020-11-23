@@ -24,7 +24,7 @@ import com.tca.service.AttendanceServiceImpl;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v2")
 public class AttendanceController {
 	@Autowired
 	private AttendanceServiceImpl attendanceService;

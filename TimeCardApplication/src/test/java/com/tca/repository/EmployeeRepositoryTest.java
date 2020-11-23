@@ -39,8 +39,8 @@ class EmployeeRepositoryTest {
     
 	@Test
     void testNewEmployee() throws Exception{
-    	testEntityManager.persist(employee);
-    	assertThat(testEntityManager.getId(employee)).isEqualTo(employee);
+    	Employee saveInDb=testEntityManager.persist(employee);
+    	assertThat(saveInDb).isEqualTo(employee);
 	 }
 	 
 	 @Test

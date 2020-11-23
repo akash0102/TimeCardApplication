@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tca.entity.TimeCard;
+import com.tca.exception.ResourceNotFoundException;
 import com.tca.repository.TimeCardRepository;
 
 
@@ -23,13 +24,10 @@ public class TimeCardServiceImpl implements TimeCardService {
 	}
 
 	@Override
-	public boolean removeEntry(int timeCardId) {
+	public boolean removeEntry(int timeCardId) throws ResourceNotFoundException {
 		boolean check=false;
-		TimeCard toDelete= daoCaller.findById(timeCardId).isPresent()?
-				daoCaller.findById(timeCardId).get():null;
-		if(toDelete!=null) {
-			daoCaller.delete(toDelete);
-		}
+		TimeCard toDelete= daoCaller.findById(timeCardId).orElseThrow(() -> new ResourceNotFoundException("TimeCard not found for this id :: " + timeCardId));
+		daoCaller.delete(toDelete);
 		if(daoCaller.findById(timeCardId).isEmpty()) {
 			check=true;
 		}
@@ -37,21 +35,15 @@ public class TimeCardServiceImpl implements TimeCardService {
 	}
 	
 	@Override
-	public int updateEntries(int id,TimeCard tca) {
+	public int updateEntries(int id,TimeCard tca) throws ResourceNotFoundException {
 		
-		Optional<TimeCard> timecard=daoCaller.findById(id);
-		TimeCard toEdit=(!timecard.isEmpty())?timecard.get():null;
-		
-		if(toEdit==null) {
-			toEdit=new TimeCard();
-			toEdit.setTimeCardId(tca.getTimeCardId());
-		}
-		toEdit.setEmployee(tca.getEmployee());
-		toEdit.setDate(tca.getDate());
-		toEdit.setTimeEntry(tca.getTimeEntry());
-		toEdit.setTimeExit(tca.getTimeExit());
-		daoCaller.save(toEdit);
-		return toEdit.getTimeCardId();
+		TimeCard timecard=daoCaller.findById(id).orElseThrow(() -> new ResourceNotFoundException(" TimeCard not found for this id :: " + id));
+		timecard.setEmployee(tca.getEmployee());
+		timecard.setDate(tca.getDate());
+		timecard.setTimeEntry(tca.getTimeEntry());
+		timecard.setTimeExit(tca.getTimeExit());
+		daoCaller.save(timecard);
+		return timecard.getTimeCardId();
 	}
 
 	@Override

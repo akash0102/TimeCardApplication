@@ -22,16 +22,15 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return  employeeRepository.save(employee);
 	}	
 
- public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "id") Integer employeeId,
-		 @RequestBody Employee employeeDetails) throws ResourceNotFoundException {
+ public Employee updateEmployee( Integer employeeId, Employee employeeDetails) throws ResourceNotFoundException {
 	Employee employee = employeeRepository.findById(employeeId)
 			.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
-	employee.setEmployeeId(employeeDetails.getEmployeeId());
+	employee.setEmployeeId(employeeDetails.getEmployeeId()); 
 	employee.setEmployeeName(employeeDetails.getEmployeeName());
 	employee.setEmployeeEmail(employeeDetails.getEmployeeEmail());
 	employee.setPhoneNumber(employeeDetails.getPhoneNumber());
 	final Employee updatedEmployee = employeeRepository.save(employee);
-	return ResponseEntity.ok(updatedEmployee); 
+	return updatedEmployee; 
 } 
  
  public boolean deleteEmployeeById(@PathVariable(value = "id") Integer employeeId)

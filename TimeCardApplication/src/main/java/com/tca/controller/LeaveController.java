@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tca.entity.Leave;
+import com.tca.exception.ResourceNotFoundException;
 import com.tca.service.LeaveService;
 
 
@@ -29,7 +30,7 @@ public class LeaveController {
 	}
 
 	@GetMapping("/findLeaveById/{leaveId}")
-	public Leave findLeave(@PathVariable Integer leaveId){
+	public Leave findLeave(@PathVariable Integer leaveId) throws ResourceNotFoundException{
 		return leaveservice.findLeave(leaveId);
 	}
 	 
@@ -39,7 +40,7 @@ public class LeaveController {
 	}
 	
 	@PutMapping("/updateLeave/{leaveId}")
-	public int updateLeave(@PathVariable int leaveId, @RequestBody LocalDate fromDate,@RequestBody LocalDate toDate) {
+	public int updateLeave(@PathVariable int leaveId, @RequestBody LocalDate fromDate,@RequestBody LocalDate toDate) throws ResourceNotFoundException {
 		return leaveservice.updateLeave(leaveId, fromDate, toDate);
 	}
 

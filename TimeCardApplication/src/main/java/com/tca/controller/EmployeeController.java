@@ -26,25 +26,25 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 
 	@GetMapping("/all")
-	public List<Employee> getAllEmployee() {
-		return employeeService.getAllEmployee();
+	public ResponseEntity<List<Employee>> getAllEmployee() {
+		return ResponseEntity.ok(employeeService.getAllEmployee());
 	} 
 	
 	@PostMapping("/CreateEmployee")
-	public Employee createEmployee( @RequestBody Employee employee) {
-		return employeeService.createEmployee(employee);
-	} 
+	public ResponseEntity<Employee> createEmployee( @RequestBody Employee employee) {
+		return ResponseEntity.ok(employeeService.createEmployee(employee));
+	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<ResponseEntity<Employee>> updateEmployee(@PathVariable(value = "id") Integer employeeId,
+	public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "id") Integer employeeId,
 			 @RequestBody Employee employeeDetails) throws ResourceNotFoundException {
-		ResponseEntity<Employee>  employee = employeeService.updateEmployee(employeeId, employeeDetails);
+		Employee  employee = employeeService.updateEmployee(employeeId, employeeDetails);
 		return  ResponseEntity.ok(employee);
 	}
 
 	@DeleteMapping("/deleteEmployee/{id}")	
-	public boolean deleteEmployeeById(@PathVariable(value = "id") Integer employeeId,
+	public ResponseEntity<Boolean> deleteEmployeeById(@PathVariable(value = "id") Integer employeeId,
 			 @RequestBody Employee employeeDetails) throws ResourceNotFoundException	{
-		return employeeService.deleteEmployeeById(employeeId);
+		return ResponseEntity.ok(employeeService.deleteEmployeeById(employeeId));
 	}  
 }

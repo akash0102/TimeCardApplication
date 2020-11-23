@@ -9,7 +9,7 @@ import com.tca.entity.Employee;
 
 public interface EmployeeService {
 	Employee createEmployee(Employee employee);	
-	ResponseEntity<Employee> updateEmployee(Integer employeeId, Employee employeeDetails) throws ResourceNotFoundException;
+	Employee updateEmployee(Integer employeeId, Employee employeeDetails) throws ResourceNotFoundException;
 	boolean deleteEmployeeById(Integer employeeId) throws ResourceNotFoundException;
 	List<Employee> getAllEmployee();
 
