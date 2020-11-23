@@ -1,14 +1,20 @@
 package com.tca.repository;
 
-import java.time.LocalTime;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.tca.entity.Attendance;
 import com.tca.entity.Employee;
 
-
-public class AttendanceRepository {
-
+@Repository
+public interface AttendanceRepository extends JpaRepository<Attendance,Integer>{
+	
+	@Query("select att from Attendance att where att.employee=:emp")
+    List<Attendance> findByEmp(Employee emp);
+	
+	@Query("select att from Attendance att where att.employee=(select emp from Employee emp where emp.employeeId=:empId)")
+	List<Attendance> findByEmpId(int empId);
 }

@@ -15,17 +15,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
-   //additional column to differ parent and child
-/*	
- * //@NamedQueries({ // @NamedQuery(name = "Manager.getList", query =
- * "SELECT t FROM Manager t where t.emp=:emp"), // @NamedQuery(name =
- * "Manager.", query =
- * "SELECT t FROM EmployeeAccount t where t.userId=:emp and t.password=:pwd")
- * //})
- */
 @Entity
 @Table(name="MANAGER")
-public class Manager{
+public class Manager implements Serializable{
 	
 	/**
 	 * 
@@ -33,16 +25,17 @@ public class Manager{
 	
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(name="MAN_ID",insertable = false,updatable = false)
+	@Column(name="MAN_ID")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int managerId;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="EMP_ID")
 	private Employee empl;
 	
 	@OneToMany(mappedBy = "manager",
 	           cascade = CascadeType.ALL,
 	           orphanRemoval = true)
+	@Column(name="EMPS")
 	private Set<Employee> emps;
 	
 	public Set<Employee> getEmps() {
@@ -51,11 +44,17 @@ public class Manager{
 	public void setEmps(Set<Employee> emps) {
 		this.emps = emps;
 	}
-	public int getmanagerId() {
+	public int getManagerId() {
 		return managerId;
 	}
-	public void setmanagerId(int managerId) {
+	public void setManagerId(int managerId) {
 		this.managerId = managerId;
+	}
+	public Employee getEmpl() {
+		return empl;
+	}
+	public void setEmpl(Employee empl) {
+		this.empl = empl;
 	}
 	@Override
 	public int hashCode() {

@@ -8,9 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tca.entity.Employee;
 import com.tca.entity.Leave;
-import com.tca.exception.LeaveNotFoundException;
+import com.tca.exception.ResourceNotFoundException;
 import com.tca.repository.LeaveRepository;
 
 
@@ -18,60 +17,57 @@ import com.tca.repository.LeaveRepository;
 
 public class LeaveServiceImpl implements LeaveService{
 	@Autowired
-	LeaveRepository leave;
+	LeaveRepository leaveRep;
+	
 	Leave lea;
-	//Employee emp;
-	//DateId date;
-
-	public Leave addLeave(LocalDate fromDate, LocalDate toDate) {
-		Employee emp=new Employee();
-		lea=new Leave();
-		lea.setToDate(toDate);
-		lea.setEmployee(emp);
-		lea.setStatus("Pending");
-		return leave.save(lea);
-		//return true;
-
-		//lea.setEmployee(dateId.getemployeeId());
-		//lea.setDateId(dateId);
-		//lea.setStatus("Pending");
-		//leave.save(lea);
-		//return true;
 	
-		/*emp.setEmployeeId(1);
-		emp.setEmployeeName("pavan");
-		emp.setEmployeeRole("analyst");
-		emp.setEmployeeEmail("dfdffs");
-		leave.save(emp);
-		return true;*/
+	@Override
+	public Leave addLeave(Leave leave) {
+		return leaveRep.save(leave);
+		
 	}
 
 	@Override
-	public boolean removeLeave(int leaveId) {
-		Optional<Leave> toDelete= leave.findById(leaveId);
+	public int removeLeave(int leaveId) {
+		Optional<Leave> toDelete= leaveRep.findById(leaveId);
 		if(toDelete.isPresent()) {
-			leave.delete(toDelete.get());	
-			
+			leaveRep.delete(toDelete.get());	
 		}
-		return true;
+		return leaveRep.findById(leaveId).isEmpty()?-1:leaveId;
 	}
 	
 	
 	@Override
-	public Leave findLeave(int leaveId) { 
+	public int updateLeave(int leaveId,LocalDate fromDate, LocalDate toDate) {
 		
+		Optional<Leave> leave=leaveRep.findById(leaveId);
+		Leave toEdit=(leave.isPresent())?leave.get():null;
 		
-		if (!leave.existsById(leaveId)) {
-			throw new LeaveNotFoundException("Leave with id " + leaveId + "not found");
+		if(toEdit==null) {
+			toEdit=new Leave();
+			toEdit.setLeaveId(leaveId);
 		}
-		return leave.getOne(leaveId);
+		toEdit.setFromDate(fromDate);
+		toEdit.setToDate(toDate);
 		
+		leaveRep.save(toEdit);
+		return toEdit.getLeaveId();
 	}
+	
 	@Override
-	public List<Leave> findByEmpId(Employee emp) {
+	public List<Leave> findByEmpId(int empId) {
 		
-		return leave.findByEmpId(emp);
+		return leaveRep.findByEmpId(empId);
 		
 	}
+
+
+	@Override
+	public Leave findLeave(int leaveId) {
+		Leave leave=leaveRep.findById(leaveId).orElseThrow();
+		return leave;
+	}
+
+	
 
 }

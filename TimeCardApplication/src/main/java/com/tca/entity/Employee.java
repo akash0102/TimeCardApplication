@@ -31,6 +31,10 @@ public class Employee implements Serializable{
 	private String phoneNumber;
 	@Column(name="EMP_EMAIL")
 	private String employeeEmail;
+	@Column(name="PASSWORD")
+	private String pass;
+	@Column(name="USER_ID")
+	private String userId;
 	@ManyToOne
 	@JoinColumn(name="MAN_ID")
 	private Manager manager;
@@ -103,5 +107,18 @@ public class Employee implements Serializable{
 		return "Employee [employeeId=" + employeeId + ", employeeName=" + employeeName + ", employeeRole="
 				+ employeeRole + ", phoneNumber=" + phoneNumber + ", employeeEmail=" + employeeEmail + "]";
 	}
+	public Employee(int employeeId, String employeeName, String phoneNumber, String employeeEmail, Manager manager) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.phoneNumber = phoneNumber;
+		this.employeeEmail = employeeEmail;
+		this.manager = manager;
+	}
+	public Employee() {
+		super();
+	}
+	
+	
 	
 }

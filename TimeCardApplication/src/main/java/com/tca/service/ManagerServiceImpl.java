@@ -31,20 +31,14 @@ public class ManagerServiceImpl  implements ManagerService {
 		return  managerRepository.save(manager);
 	}
 	 
-	public ResponseEntity<Manager> updateManager(@PathVariable(value = "id") Integer managerId,
+	public Manager updateManager(@PathVariable(value = "id") Integer managerId,
 		 @RequestBody Manager managerDetails) throws ResourceNotFoundException {
-	Manager manager = managerRepository.findById(managerId)
+		Manager manager = managerRepository.findById(managerId)
 			.orElseThrow(() -> new ResourceNotFoundException("Company Manager not found for this id :: " + managerId));
-	/*
-	 * manager.setManagerId(managerDetails.getManagerId());
-	 * manager.setManagerName(managerDetails.getManagerName());
-	 * manager.setManagerEmail(managerDetails.getManagerEmail());
-	 * manager.setManagerPhone(managerDetails.getManagerPhone());
-	 */
-		manager.setmanagerId(managerDetails.getmanagerId());
+		manager.setManagerId(managerDetails.getManagerId());
 		manager.setEmps(managerDetails.getEmps());
 		final Manager updatedManager = managerRepository.save(manager);
-		return ResponseEntity.ok(updatedManager); 
+		return updatedManager; 
 		
 	}
 	 

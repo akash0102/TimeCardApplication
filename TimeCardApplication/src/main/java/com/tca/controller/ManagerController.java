@@ -30,10 +30,10 @@ public class ManagerController {
 		return managerService.createManager(manager);
 	} 
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<ResponseEntity<Manager>> updateManager(@PathVariable(value = "id") Integer managerId,
+	@PutMapping("/editManager/{id}")
+	public ResponseEntity<Manager> updateManager(@PathVariable(value = "id") Integer managerId,
 			 @RequestBody Manager managerDetails) throws ResourceNotFoundException {
-		ResponseEntity<Manager> manager = managerService.updateManager(managerId, managerDetails);
+		Manager manager = managerService.updateManager(managerId, managerDetails);
 		return  ResponseEntity.ok(manager);
 	}
 

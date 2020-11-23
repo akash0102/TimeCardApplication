@@ -39,6 +39,14 @@ public class Leave implements Serializable{
 	private LocalDate toDate;
 	
 	
+	public Leave() {
+		super();
+	}
+	public Leave(LocalDate fromDate, LocalDate toDate) {
+		this.fromDate=fromDate;
+		this.toDate=toDate;
+		this.status="Pending";
+	}
 	public int getLeaveId() {
 		return leaveId;
 	}

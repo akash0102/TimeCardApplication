@@ -11,7 +11,7 @@ import com.tca.entity.Manager;
 
 public interface ManagerService {
 	Manager createManager(Manager manager);
-	ResponseEntity<Manager> updateManager(Integer managerId, Manager managerDetails) throws ResourceNotFoundException;
+	Manager updateManager(Integer managerId, Manager managerDetails) throws ResourceNotFoundException;
 	boolean deleteManager(Integer managerId) throws ResourceNotFoundException;
 	List<Manager> getAllManager();
 

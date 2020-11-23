@@ -1,16 +1,16 @@
 package com.tca.service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import com.tca.entity.Attendance;
-import com.tca.entity.Employee;
+import com.tca.exception.ResourceNotFoundException;
 
 public interface AttendanceService {
-
-	boolean manualAttendance(Employee empl, LocalDate fromDate, LocalDate toDate, LocalTime iTime, LocalTime oTime);
-
-	List<Attendance> viewAllDetails(Employee empl);
-
+	
+	 public List<Attendance> getAllAttendance();
+	 public List<Attendance> getAttendanceDetailsById(Integer employeeId) throws ResourceNotFoundException;
+	 public boolean deleteAttendanceDetailsById(Integer attendanceId) throws ResourceNotFoundException;
+	 public Attendance updateAttendanceById(Integer attendanceId, Attendance att) throws ResourceNotFoundException;
+	 public Attendance saveAttendanceDetails(Attendance att);
+	 
 }

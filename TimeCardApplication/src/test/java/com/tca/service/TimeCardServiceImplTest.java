@@ -1,14 +1,133 @@
 package com.tca.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Optional;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import com.tca.entity.Employee;
+import com.tca.entity.TimeCard;
+import com.tca.repository.TimeCardRepository;
+
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class TimeCardServiceImplTest {
 
-	@Test
-	void test() {
-		fail("Not yet implemented");
-	}
+	@MockBean
+	private TimeCardRepository tcardrepo;
+	
+	@Autowired
+	private TimeCardService tcardservice;
+	
 
+	private TimeCard tca;
+	private TimeCard tca2;
+	
+	
+	
+	@BeforeEach
+	void setUp() throws Exception {
+		Employee emp=new Employee();
+		emp.setEmployeeId(3);
+		tca=new TimeCard();
+		tca2=new TimeCard();
+		tca2.setEmployee(emp);
+		tca.setDate(LocalDate.of(2020, 2, 13));
+		tca.setTimeEntry(LocalTime.MIN);
+		tca.setTimeExit(LocalTime.MAX);
+		tca.setEmployee(emp);
+		tca.setStatus("Pending");
+	}
+	 
+	  
+	
+	@AfterEach
+	void tearDown() throws Exception {
+		tca=null;
+		tca2=null;
+	}
+	 
+
+	@Test
+	void testNewSaveEntry() {
+		
+		Mockito.when(tcardrepo.save(tca)).thenReturn(tca);
+		assertThat(tcardservice.saveTimeEntry(tca)).isEqualTo(tca);
+		
+	}
+	
+	@Test
+	void testNewSaveEntryFalse() {
+		
+		Mockito.when(tcardrepo.save(tca)).thenReturn(tca);
+		assertThat(tcardservice.saveTimeEntry(tca)).isNotEqualTo(tca2);
+
+	}
+	
+	@Test
+	void testDisplayEntries() throws Exception{
+		ArrayList<TimeCard> checkList=new ArrayList<>();
+		checkList.add(tca);
+		checkList.add(tca2);
+		Mockito.when(tcardservice.displayEntries(3)).thenReturn(checkList);
+		assertThat(tcardservice.displayEntries(3)).isEqualTo(checkList);
+	}
+	
+	@Test
+	void testFailDisplayEntries() throws Exception{
+		ArrayList<TimeCard> checkList=new ArrayList<>();
+		ArrayList<TimeCard> newlist=new ArrayList<>();
+		checkList.add(tca);
+		checkList.add(tca2);
+		Mockito.when(tcardservice.displayEntries(3)).thenReturn(checkList);
+		assertThat(tcardservice.displayEntries(3)).isNotEqualTo(newlist);
+	}
+			/*
+		 * tcardservice.displayEntries(employeeId)
+		 * tcardservice.removeEntry(timeCardId)
+		 * tcardservice.updateEntries(id, tca)
+		 */
+	
+	
+	
+	@Test
+	void testRemoveEntry() {
+		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca));
+		assertThat(tcardservice.removeEntry(tca.getTimeCardId())).isFalse();
+	}
+	  
+	@Test
+	void testFailRemoveEntry() {
+		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca));
+		assertThat(tcardservice.removeEntry(3)).isTrue();
+	}
+	
+	@Test
+	void testUpdate(){
+		tca.setTimeCardId(3);
+		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca));
+		assertThat(tcardservice.updateEntries(0, tca)).isEqualTo(3);
+	}
+	
+	@Test
+	void testUpdateFail() {
+		tca.setTimeCardId(4);
+		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca));
+		assertThat(tcardservice.updateEntries(4, tca)).isNotZero();
+	}
 }

@@ -24,11 +24,16 @@ public class TimeCardServiceImpl implements TimeCardService {
 
 	@Override
 	public boolean removeEntry(int timeCardId) {
-		Optional<TimeCard> toDelete= daoCaller.findById(timeCardId);
-		if(toDelete.isPresent()) {
-			daoCaller.delete(toDelete.get());
+		boolean check=false;
+		TimeCard toDelete= daoCaller.findById(timeCardId).isPresent()?
+				daoCaller.findById(timeCardId).get():null;
+		if(toDelete!=null) {
+			daoCaller.delete(toDelete);
 		}
-		return daoCaller.findById(timeCardId).isEmpty();
+		if(daoCaller.findById(timeCardId).isEmpty()) {
+			check=true;
+		}
+		return check;
 	}
 	
 	@Override

@@ -36,8 +36,16 @@ class TimeCardRepositoryTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		tcard1=new TimeCard(new Employee(),LocalDate.now(),LocalTime.parse("10:02:03.000"),LocalTime.parse("22:02:45.000"),"Pending");
-    	tcard2=new TimeCard(new Employee(),LocalDate.now(),LocalTime.parse("08:32:51.000"),LocalTime.parse("19:04:37.000"),"Pending");
+		tcard1=new TimeCard(new Employee(),
+							LocalDate.now(),
+							LocalTime.parse("10:02:03.000"),
+							LocalTime.parse("22:02:45.000"),
+							"Pending");
+    	tcard2=new TimeCard(new Employee(),
+    						LocalDate.now(),
+    						LocalTime.parse("08:32:51.000"),
+    						LocalTime.parse("19:04:37.000"),
+    						"Pending");
         tenman.persist(tcard2);
 	}
 	
@@ -51,7 +59,6 @@ class TimeCardRepositoryTest {
 	@Test
     void testCreateTimeCard() throws Exception{
         TimeCard savedTimeCard=tcardRepo.save(tcard1);
-        assertNotNull(savedTimeCard);
         assertEquals(savedTimeCard,tcard1);
     }
 	
@@ -71,20 +78,44 @@ class TimeCardRepositoryTest {
 		List<TimeCard> listOfEmps=new ArrayList<>();
         tenman.persist(tcard1);
         assertNotNull(tcardRepo.findAll());
-        listOfEmps.add(tcard1);
         listOfEmps.add(tcard2);
+        listOfEmps.add(tcard1);
+        for(TimeCard tca: tcardRepo.findAll()) {
+        	System.out.println(tca);
+        }
+        
+        for(TimeCard tc: listOfEmps) {
+        	System.out.println(tc);
+        }
         assertThat(tcardRepo.findAll()).isEqualTo(listOfEmps);
 	}
 	
 	@Test
 	void testFindEmp() throws Exception{
-		
+		Employee emp=new Employee();
 		tenman.persist(tcard2);
 		
-		assertNotNull(tcardRepo.findByEmp(new Employee()));
-		
-		
-		
-		
+		tenman.persist(emp);
+		assertNotNull(tcardRepo.findByEmp(emp));
 	}
+	
+	@Test
+	void testFailFindEmp() throws Exception{
+		Employee emp=new Employee();
+		tenman.persist(tcard2);
+		
+		tenman.persist(emp);
+		assertThat(tcardRepo.findByEmp(null)).isEmpty();
+	}
+	
+	@Test
+	void testFindEmpId() throws Exception{
+		Employee emp=new Employee();
+		tenman.persist(tcard2);
+		
+		tenman.persist(emp);
+		
+		assertNotNull(tcardRepo.findByEmpId(emp.getEmployeeId()));
+	}
+	
 }

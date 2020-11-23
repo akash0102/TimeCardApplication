@@ -3,17 +3,18 @@ package com.tca.service;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.tca.entity.Employee;
 import com.tca.entity.Leave;
 
 public interface LeaveService {
 
-	public Leave addLeave(LocalDate fromDate, LocalDate toDate);
+	public Leave addLeave(Leave leave);
 
 	public Leave findLeave(int leaveId);
 
-	boolean removeLeave(int leaveId);
+	int removeLeave(int leaveId);
 
-	List<Leave> findByEmpId(Employee emp);
+	int updateLeave(int leaveId, LocalDate fromDate, LocalDate toDate);
+
+	List<Leave> findByEmpId(int empId);
 
 }

@@ -1,28 +1,62 @@
 package com.tca.service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import javax.transaction.Transactional;
 
-import com.tca.entity.Attendance;
-import com.tca.entity.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.tca.repository.AttendanceRepository;
+import com.tca.entity.Attendance;
+import com.tca.exception.ResourceNotFoundException;
 
+@Service
+@Transactional
 public class AttendanceServiceImpl implements AttendanceService {
 
-	AttendanceRepository attDao=new AttendanceRepository();
-	Logger log=Logger.getLogger(AttendanceServiceImpl.class); 
-	
+	@Autowired
+	private AttendanceRepository attdetails;
+
 	@Override
-	public boolean manualAttendance(Employee empl, LocalDate toDate, LocalDate fromDate, LocalTime iTime, LocalTime oTime) {
+	public List<Attendance> getAllAttendance() {
+		return attdetails.findAll();
+	}
+
+	@Override
+	public List<Attendance> getAttendanceDetailsById(Integer employeeId) throws ResourceNotFoundException {
+		
+		return attdetails.findByEmpId(employeeId);
+	}
+
+	@Override
+	public boolean deleteAttendanceDetailsById(Integer attendanceId) throws ResourceNotFoundException {
+		Attendance att = attdetails.findById(attendanceId).orElseThrow(
+				() -> new ResourceNotFoundException("Attendance not found for this id :: " + attendanceId));
+		attdetails.delete(att);
+		if (null == att) {
+			return true;
+		}
 		return false;
 	}
-	
+
 	@Override
-	public List<Attendance> viewAllDetails(Employee empl) {
-		return null;
+	public Attendance updateAttendanceById(Integer attendanceId, Attendance atts) throws ResourceNotFoundException {
+		Attendance att = attdetails.findById(attendanceId).orElseThrow(
+				() -> new ResourceNotFoundException("Attendance not found for this id :: " + attendanceId));
+		att.setAttendanceId(atts.getAttendanceId());
+		att.setInTime(atts.getInTime());
+		att.setOffTime(atts.getOffTime());
+		att.setStatus(atts.getStatus());
+
+		final Attendance updatedAttendance = attdetails.save(att);
+		return updatedAttendance;
+	}
+
+	@Override
+	public Attendance saveAttendanceDetails(Attendance att) {
+
+		return attdetails.save(att); 
 	}
 
 }
