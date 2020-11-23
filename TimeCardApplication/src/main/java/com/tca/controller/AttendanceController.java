@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tca.entity.Attendance;
 import com.tca.entity.Employee;
+import com.tca.entity.Manager;
 import com.tca.exception.ResourceNotFoundException;
 
 import com.tca.service.AttendanceServiceImpl;
@@ -35,13 +36,20 @@ public class AttendanceController {
 	}
 
 	@PostMapping("/saveAttendance")
-	public ResponseEntity<Attendance> saveAttendance(@RequestBody Employee employee) {
+	public ResponseEntity<Attendance> saveAttendance(@RequestBody LocalDate date, LocalTime intime,LocalTime outtime) {
 		Attendance atts=new Attendance();
-		atts.setEmployee(employee);
-		atts.setFromDate(LocalDate.MIN);
-		atts.setToDate(LocalDate.now());
-		atts.setInTime(LocalTime.MIN);
-		atts.setOffTime(LocalTime.MAX);
+		Employee emp=new Employee();
+		emp.setEmployeeEmail("abcd@gmail.com");
+		emp.setEmployeeId(100);
+		emp.setEmployeeName("abcd");
+		emp.setEmployeeRole("Developer");
+		emp.setManager(new Manager());
+		emp.setPhoneNumber("1234567890");
+		atts.setEmployee(emp);
+		atts.setFromDate(date);
+		atts.setToDate(date);
+		atts.setInTime(intime);
+		atts.setOffTime(outtime);
 		atts.setStatus("Pending");
 		return ResponseEntity.ok().body(attendanceService.saveAttendanceDetails(atts));
 	}
