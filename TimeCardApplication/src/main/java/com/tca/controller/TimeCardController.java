@@ -19,12 +19,17 @@ import com.tca.exception.ResourceNotFoundException;
 import com.tca.service.EmployeeService;
 import com.tca.service.TimeCardService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 
 
 /**
  * @author akash
  * controller class for timecard
  */
+
+@Api(value = "TimeCardControllerClass",description = "This is class for employee controller")
 @RestController 
 @RequestMapping("/api/v2/timecard")
 public class TimeCardController {
@@ -35,13 +40,14 @@ public class TimeCardController {
 	@Autowired
 	private EmployeeService empSer;
 	
+	@ApiOperation(value = "get timecards by employee id", response = Iterable.class, tags = "TimeCardControllerClass")
 	@GetMapping("/employee/{id}")
 	public ResponseEntity<List<TimeCard>> getEmployeeById(@PathVariable(value = "id") Integer employeeId){
 		List<TimeCard> timecard = tcs.displayEntries(employeeId);
 		return ResponseEntity.ok().body(timecard);
 	}
 	
-	
+	@ApiOperation(value = "enter timecard entry", response = TimeCard.class, tags = "TimeCardControllerClass")
 	@PostMapping("/timecardEntry/")
 	public ResponseEntity<TimeCard> createTimeCard(
 					@RequestBody TimeCard tca ) {
@@ -52,15 +58,17 @@ public class TimeCardController {
 		return ResponseEntity.ok().body(tcs.saveTimeEntry(tca)); 
 	}
 	
-	
-	@PutMapping("/timeCardEdit/{id}")
+	@ApiOperation(value = "edit timecard entry", response = Integer.class, tags = "TimeCardControllerClass")
+	@PutMapping("/timeCardEdit/{tc_id}")
 	public ResponseEntity<Integer> editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody TimeCard tcard) throws ResourceNotFoundException{
 		
 		return ResponseEntity.ok(tcs.updateEntries(id, tcard));
 	}
 	
+	
+	@ApiOperation(value = "delete timecard entry", response = Boolean.class, tags = "TimeCardControllerClass")
 	@DeleteMapping("/timecardDelete/{id}")
-	public ResponseEntity<Boolean> deleteTimeCard(@PathVariable("tc_id") Integer id ) throws ResourceNotFoundException{
+	public ResponseEntity<Boolean> deleteTimeCard(@PathVariable("id") Integer id ) throws ResourceNotFoundException{
 		return ResponseEntity.ok(tcs.removeEntry(id));
 	}
 	

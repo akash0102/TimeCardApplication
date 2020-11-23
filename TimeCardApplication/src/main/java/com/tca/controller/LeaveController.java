@@ -19,6 +19,8 @@ import com.tca.exception.ResourceNotFoundException;
 import com.tca.service.EmployeeService;
 import com.tca.service.LeaveService;
 
+import io.swagger.annotations.ApiOperation;
+
 
 
 
@@ -35,6 +37,7 @@ public class LeaveController {
 	@Autowired
 	private EmployeeService empSer;
 	
+	@ApiOperation(value = "add leave", response = Leave.class, tags = "LeaveControllerClass")
 	@PostMapping("/apply/{emp_id}")
 	public Leave addLeave(@RequestBody Leave leave ,@PathVariable("emp_id") Integer empId ) {
 		Employee emp=empSer.getEmpById(empId);
@@ -43,13 +46,15 @@ public class LeaveController {
 		}
 		return leaveservice.addLeave(leave);
 	}
-
+	
+	@ApiOperation(value = "find leave", response = Leave.class, tags = "LeaveControllerClass")
 	@GetMapping("/findLeaveById/{leaveId}")
 	public Leave findLeave(@PathVariable Integer leaveId) throws ResourceNotFoundException{
 		return leaveservice.findLeave(leaveId); 
 	}
 	 
 	@DeleteMapping("/deleteLeaveById/leaveId/{leaveId}")
+	@ApiOperation(value = "delete leave", response = Leave.class, tags = "LeaveControllerClass")
 	public int removeLeave(@PathVariable Integer leaveId){
 		return leaveservice.removeLeave(leaveId); 
 	}

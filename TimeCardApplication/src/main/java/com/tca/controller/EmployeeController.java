@@ -82,6 +82,7 @@ public class EmployeeController {
 	}  
 	
 	@GetMapping("/{id}")
+	@ApiOperation(value = "fetch employee by id", response = Employee.class, tags = "EmployeeControllerClass")
 	public ResponseEntity<Employee> getEmployeeById(@PathVariable(value="id")Integer id){
 		log.info("fetched employee with id "+id);
 		return ResponseEntity.ok(employeeService.getEmpById(id));
