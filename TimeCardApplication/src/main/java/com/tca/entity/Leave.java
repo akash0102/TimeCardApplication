@@ -72,7 +72,7 @@ public class Leave implements Serializable{
 		this.fromDate = fromDate;
 	}
 	public LocalDate getToDate() {
-		return toDate;
+		return toDate; 
 	}
 	public void setToDate(LocalDate toDate) {
 		this.toDate = toDate;

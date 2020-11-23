@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.tca.exception.ResourceNotFoundException;
 import com.tca.entity.Employee;
 import com.tca.entity.Manager;
-import com.tca.repository.ManagerRepository;
+import com.tca.repository.ManagerRepository; 
 
 
 

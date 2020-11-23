@@ -81,4 +81,20 @@ class EmployeeTest {
 		assertNotEquals("1234567890",emp.getPhoneNumber());
 	}
 	
+	@Test
+	void testManager() {
+		Manager manager=new Manager();
+		manager.setManagerId(100);
+		emp.setManager(manager);
+		assertEquals(manager,emp.getManager());
+	}
+	
+	void testConstructor() {
+		Manager manager=new Manager();
+		manager.getEmpl().add(emp);
+		manager.setManagerId(100);
+		emp=new Employee(1,"acdf","1234567890","asdh@gmail.com",manager);
+		assertNotNull(emp.toString());
+	}
+	
 }

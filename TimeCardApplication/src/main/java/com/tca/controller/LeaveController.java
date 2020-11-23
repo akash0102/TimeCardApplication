@@ -1,6 +1,5 @@
 package com.tca.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,10 @@ import com.tca.service.LeaveService;
 
 
 
+/**
+ * @author pavan
+ * controller class for leave service
+ */
 @RestController
 @RequestMapping("/api/v2/leave")
 public class LeaveController {
@@ -36,7 +39,7 @@ public class LeaveController {
 	public Leave addLeave(@RequestBody Leave leave ,@PathVariable("emp_id") Integer empId ) {
 		Employee emp=empSer.getEmpById(empId);
 		if(emp!=null) {
-			leave.setEmployee(emp);
+			leave.setEmployee(emp); 
 		}
 		return leaveservice.addLeave(leave);
 	}
@@ -48,13 +51,12 @@ public class LeaveController {
 	 
 	@DeleteMapping("/deleteLeaveById/leaveId/{leaveId}")
 	public int removeLeave(@PathVariable Integer leaveId){
-		return leaveservice.removeLeave(leaveId);
+		return leaveservice.removeLeave(leaveId); 
 	}
 	
 	@PutMapping("/updateLeave/{leaveId}")
-	public int updateLeave(@PathVariable("leaveId") Integer leaveId, @RequestBody String fromDate,
-							@RequestBody String toDate) throws ResourceNotFoundException {
-		return leaveservice.updateLeave(leaveId, LocalDate.parse(fromDate), LocalDate.parse(toDate));
+	public int updateLeave(@RequestBody Leave leave ,@PathVariable("leaveId") Integer leaveId ) throws ResourceNotFoundException {
+		return leaveservice.updateLeave(leaveId,leave);
 	}
 	
 	@GetMapping("/getAllLeaves/{emp_id}")

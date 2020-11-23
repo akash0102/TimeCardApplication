@@ -16,7 +16,7 @@ import com.tca.exception.ResourceNotFoundException;
 public class AttendanceServiceImpl implements AttendanceService {
 
 	@Autowired
-	private AttendanceRepository attdetails;
+	private AttendanceRepository attdetails; 
 
 	@Override
 	public List<Attendance> getAllAttendance() {
@@ -34,7 +34,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 		Attendance att = attdetails.findById(attendanceId).orElseThrow(
 				() -> new ResourceNotFoundException("Attendance not found for this id :: " + attendanceId));
 		attdetails.delete(att);
-		return att==null;
+		return att==null; 
 	}
 
 	@Override

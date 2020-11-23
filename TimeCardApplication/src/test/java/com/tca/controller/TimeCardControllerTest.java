@@ -1,21 +1,17 @@
 package com.tca.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Assert;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tca.entity.Employee;
-import com.tca.entity.Manager;
 import com.tca.entity.TimeCard;
-import com.tca.service.ManagerService;
 import com.tca.service.TimeCardService;
 
 import org.junit.jupiter.api.AfterEach;
@@ -64,7 +60,7 @@ class TimeCardControllerTest {
 	
 	 @Test
 	   public void testAddTimeCard() throws Exception{
-		  String URI = "/api/v2/timecard/employee/";
+		  String URI = "/api/v2/timecard/createTimeCardhh/";
 		  String jsonInput = this.converttoJson(tcard);
 
 		  Mockito.when(tcardService.saveTimeEntry(tcard)).thenReturn(tcard);
@@ -103,8 +99,7 @@ class TimeCardControllerTest {
 	 public void testUpdateTimeCradByEmpId() throws Exception{
 		 String URI= "/api/v2/timeCardEdit/{id}";
 		 String jsonInput = this.converttoJson(tcard);
-		 Mockito.when(tcardService.updateEntries(100, LocalDate.of(2020, 05, 17)
-				 					,LocalTime.of(9, 03),LocalTime.of(18, 35)))
+		 Mockito.when(tcardService.updateEntries(100, tcard))
 		 							.thenReturn(tcard.getTimeCardId());
 		 MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3)
 				 			.accept(MediaType.APPLICATION_JSON)

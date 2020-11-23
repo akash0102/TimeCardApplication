@@ -1,7 +1,5 @@
 package com.tca.controller;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,13 @@ import com.tca.exception.ResourceNotFoundException;
 import com.tca.service.EmployeeService;
 import com.tca.service.TimeCardService;
 
-@RestController
+
+
+/**
+ * @author akash
+ * controller class for timecard
+ */
+@RestController 
 @RequestMapping("/api/v2/timecard")
 public class TimeCardController {
 
@@ -39,24 +43,20 @@ public class TimeCardController {
 	
 	
 	@PostMapping("/timecardEntry/")
-	public ResponseEntity<TimeCard> createTimeCard( @RequestBody Integer employeeId,String date,String fromTime,String toTime) {
-		TimeCard tc=new TimeCard();
-		Employee employee=empSer.getEmpById(employeeId);
+	public ResponseEntity<TimeCard> createTimeCard(
+					@RequestBody TimeCard tca ) {
+		Employee employee=empSer.getEmpById(tca.getEmployee().getEmployeeId());
 		if(employee!=null)
-			tc.setEmployee(employee);
-		tc.setStatus("Pending");
-		tc.setTimeEntry(LocalTime.parse(fromTime));
-		tc.setTimeExit(LocalTime.parse(toTime)); 
-		tc.setDate(LocalDate.parse(date));
-		return ResponseEntity.ok().body(tcs.saveTimeEntry(tc));
+			tca.setEmployee(employee);
+		tca.setStatus("Pending"); 
+		return ResponseEntity.ok().body(tcs.saveTimeEntry(tca)); 
 	}
 	
 	
 	@PutMapping("/timeCardEdit/{id}")
-	public ResponseEntity<Integer> editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody String date,
-									@RequestBody String inTime,@RequestBody String outTime) throws ResourceNotFoundException{
+	public ResponseEntity<Integer> editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody TimeCard tcard) throws ResourceNotFoundException{
 		
-		return ResponseEntity.ok(tcs.updateEntries(id, LocalDate.parse(date), LocalTime.parse(inTime), LocalTime.parse(outTime)));
+		return ResponseEntity.ok(tcs.updateEntries(id, tcard));
 	}
 	
 	@DeleteMapping("/timecardDelete/{id}")

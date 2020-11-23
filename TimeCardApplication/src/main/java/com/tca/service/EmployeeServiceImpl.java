@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import com.tca.exception.ResourceNotFoundException;
 import com.tca.entity.Employee;
 import com.tca.entity.Manager;
-import com.tca.repository.EmployeeRepository;
-import com.tca.repository.ManagerRepository;
+import com.tca.repository.EmployeeRepository; 
 
 
 @Service
@@ -52,12 +51,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 
  	public List<Employee> getAllEmployee() {
 		 return employeeRepository.findAll();
-	}
+	} 
 
-@Override
-public Employee getEmpById(int empId) {
-	return employeeRepository.getOne(empId);
-}
+	@Override
+	public Employee getEmpById(int empId) {
+		return employeeRepository.findById(empId).get();
+	}
 
 	
 }

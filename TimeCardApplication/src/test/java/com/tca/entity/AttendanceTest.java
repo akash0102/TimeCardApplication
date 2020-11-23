@@ -77,7 +77,20 @@ class AttendanceTest {
 	void testDateIdFalse() {
 		att.setFromDate(LocalDate.now());
 		att.setToDate(LocalDate.MIN);
-		assertNotEquals(LocalDate.MIN,att.getToDate());
+		assertNotEquals(LocalDate.now(),att.getToDate());
+	}
+	
+	
+	@Test
+	void testStatus() {
+		att.setStatus("Pending");
+		assertEquals("Pending",att.getStatus());
+	}
+	
+	@Test
+	void testFailStatus() {
+		att.setStatus("Approved");
+		assertNotEquals("Pending",att.getStatus());
 	}
 
 }

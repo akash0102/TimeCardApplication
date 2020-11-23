@@ -55,7 +55,7 @@ public class TimeCard implements Serializable{
 	public int getTimeCardId() {
 		return timeCardId;
 	}
-	public void setTimeCardId(int timeCardId) {
+	public void setTimeCardId(int timeCardId) { 
 		this.timeCardId = timeCardId;
 	}
 	public Employee getEmployee() {

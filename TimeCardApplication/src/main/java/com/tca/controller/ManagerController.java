@@ -18,6 +18,12 @@ import com.tca.entity.Manager;
 import com.tca.service.ManagerService;
 
 
+
+
+/**
+ * @author usha
+ * manager service controller
+ */
 @RestController
 @RequestMapping("/api/v2/Manager")
 public class ManagerController {
@@ -27,14 +33,14 @@ public class ManagerController {
 
 	@PostMapping("/CreateManager")
 	public Manager createCompanyManger( @RequestBody Manager manager) {
-		return managerService.createManager(manager); 
+		return managerService.createManager(manager);  
 	}
 	
 	@PutMapping("/editManager/{id}")
 	public ResponseEntity<Manager> updateManager(@PathVariable(value = "id") Integer managerId,
 			 @RequestBody Manager managerDetails) throws ResourceNotFoundException {
 		Manager manager = managerService.updateManager(managerId, managerDetails);
-		return  ResponseEntity.ok(manager);
+		return  ResponseEntity.ok(manager); 
 	}
 
 	@DeleteMapping("/{id}")

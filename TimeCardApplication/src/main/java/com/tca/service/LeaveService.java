@@ -1,6 +1,5 @@
 package com.tca.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import com.tca.entity.Leave;
@@ -14,8 +13,8 @@ public interface LeaveService {
 
 	int removeLeave(int leaveId);
 
-	int updateLeave(int leaveId, LocalDate fromDate, LocalDate toDate) throws ResourceNotFoundException;
-
 	List<Leave> findByEmpId(int empId);
+
+	public int updateLeave(Integer leaveId, Leave leave) throws ResourceNotFoundException;
 
 }

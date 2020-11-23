@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="EMPLOYEE")
 @SequenceGenerator(name="seq", initialValue=100000, allocationSize=100)
@@ -37,6 +39,7 @@ public class Employee implements Serializable{
 	private String userId;
 	@ManyToOne
 	@JoinColumn(name="MAN_ID")
+	@JsonBackReference
 	private Manager manager;
 	
 	
@@ -90,7 +93,7 @@ public class Employee implements Serializable{
 		return result;
 	}
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) { 
 		if (this == obj)
 			return true;
 		if (obj == null || (getClass() != obj.getClass()))

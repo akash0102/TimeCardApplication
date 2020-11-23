@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Table(name="MANAGER")
@@ -27,6 +29,7 @@ public class Manager implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int managerId;
 	@OneToMany(mappedBy = "manager",cascade = CascadeType.ALL)
+	@JsonManagedReference
 	@Column(name="EMP_ID")
 	private Set<Employee> emps;
 	@Column(name="MAN_NAME")
@@ -38,7 +41,7 @@ public class Manager implements Serializable{
 	@Column(name="PASSWORD")
 	private String pass;
 	@Column(name="USER_ID")
-	private String userId; 
+	private String userId;
 	
 	public int getManagerId() {
 		return managerId;
@@ -93,7 +96,7 @@ public class Manager implements Serializable{
 		return pass;
 	}
 	public void setPass(String pass) {
-		this.pass = pass;
+		this.pass = pass; 
 	}
 	public String getUserId() {
 		return userId;

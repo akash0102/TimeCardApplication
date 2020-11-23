@@ -1,10 +1,9 @@
 package com.tca.service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-//import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +20,12 @@ public class LeaveServiceImpl implements LeaveService{
 	
 	Leave lea;
 	
+	Logger log=Logger.getLogger(getClass());
+	
 	@Override
 	public Leave addLeave(Leave leave) {
+		log.info("leave saved");
 		return leaveRep.save(leave); 
-		
 	}
 
 	@Override
@@ -33,25 +34,27 @@ public class LeaveServiceImpl implements LeaveService{
 		if(toDelete.isPresent()) {
 			leaveRep.delete(toDelete.get());	
 		}
+		log.info("removed leave");
 		return leaveRep.findById(leaveId).isEmpty()?-1:leaveId;
 	}
 	
 	
 	@Override
-	public int updateLeave(int leaveId,LocalDate fromDate, LocalDate toDate) throws ResourceNotFoundException {
+	public int updateLeave(Integer leaveId,Leave lea) throws ResourceNotFoundException { 
 		
 		Leave leave=leaveRep.findById(leaveId).orElseThrow(() -> new ResourceNotFoundException("Leave not found for this id :: " + leaveId));
 
-		leave.setFromDate(fromDate);
-		leave.setToDate(toDate);
+		leave.setFromDate(lea.getFromDate());
+		leave.setToDate(lea.getToDate());
 		
 		leaveRep.save(leave);
+		log.info("updated Leave");
 		return leave.getLeaveId();
 	}
 	
 	@Override
 	public List<Leave> findByEmpId(int empId) {
-		
+		log.info("Found Leaves taken by an employee");
 		return leaveRep.findByEmpId(empId);
 		
 	}
@@ -59,7 +62,7 @@ public class LeaveServiceImpl implements LeaveService{
 
 	@Override
 	public Leave findLeave(int leaveId) throws ResourceNotFoundException {
-		
+		log.info("all leaves");
 		return leaveRep.findById(leaveId).orElseThrow(() -> new ResourceNotFoundException("Leave not found for this id :: " + leaveId));
 	}
 

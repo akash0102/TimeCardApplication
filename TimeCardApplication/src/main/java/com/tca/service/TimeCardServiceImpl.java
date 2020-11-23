@@ -1,10 +1,7 @@
 package com.tca.service;
 
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +19,7 @@ public class TimeCardServiceImpl implements TimeCardService {
 	
 	@Override
 	public TimeCard saveTimeEntry(TimeCard timeCard) {
-		return daoCaller.save(timeCard); 
+		return daoCaller.save(timeCard);  
 	}
 
 	@Override
@@ -37,12 +34,12 @@ public class TimeCardServiceImpl implements TimeCardService {
 	}
 	
 	@Override
-	public int updateEntries(int id,LocalDate date,LocalTime intime, LocalTime outtime ) throws ResourceNotFoundException {
+	public int updateEntries(int id,TimeCard tcard ) throws ResourceNotFoundException {
 		
 		TimeCard timecard=daoCaller.findById(id).orElseThrow(() -> new ResourceNotFoundException(" TimeCard not found for this id :: " + id));
-		timecard.setDate(date);
-		timecard.setTimeEntry(intime);
-		timecard.setTimeExit(outtime);
+		timecard.setDate(tcard.getDate());
+		timecard.setTimeEntry(tcard.getTimeEntry());
+		timecard.setTimeExit(tcard.getTimeExit());
 		daoCaller.save(timecard);
 		return timecard.getTimeCardId();
 	}

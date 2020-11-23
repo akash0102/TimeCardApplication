@@ -2,6 +2,7 @@ package com.tca.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class AttendanceControllerTest {
 
 	@Test
 	public void testsaveAttendanceDetails() throws Exception {
-		String URI = "/api/v1/saveAttendance";
+		String URI = "/api/v2/saveAttendance";
 		Employee emp = new Employee();
 		emp.setEmployeeId(1);
 		Attendance att = new Attendance();
@@ -47,21 +48,26 @@ public class AttendanceControllerTest {
 		att.setOffTime(LocalTime.of(18, 00));
 		
 		att.setStatus("Pending");
+		LocalDate ldate=LocalDate.parse("2020-04-17");
+		LocalTime inTime=LocalTime.parse("09:36:42.003");
+		LocalTime offTime=LocalTime.parse("17:22:55.273");
 
-		String jsonInput = this.converttoJson(att);
+		String jsonInput = this.converttoJson(ldate.toString()+inTime.toString()+offTime.toString());
+		System.out.println(jsonInput);
 
 		Mockito.when(attService.saveAttendanceDetails(Mockito.any(Attendance.class))).thenReturn(att);
-		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(URI).accept(MediaType.APPLICATION_JSON)
-				.content(jsonInput).contentType(MediaType.APPLICATION_JSON)).andReturn();
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(URI,"10001")
+											.accept(MediaType.APPLICATION_JSON)
+											.content(jsonInput).contentType(MediaType.APPLICATION_JSON)).andReturn();
 		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 		String jsonOutput = mockHttpServletResponse.getContentAsString();
-		assertThat(jsonInput).isEqualTo(jsonOutput);
+		assertThat(jsonOutput).isEqualTo(this.converttoJson(att));
 		Assert.assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
 	}
 
 	@Test
-	public void testgetAttendanceDetailsById() throws Exception {
-		String URI = "/api/v1/getAttendance/{id}";
+	public void testgetAttendanceByEmpId() throws Exception {
+		String URI = "/api/v2/getAttendance/{id}";
 		Attendance att = new Attendance();
 		att.setAttendanceId(3);
 		att.setInTime(LocalTime.of(8, 30));
@@ -69,9 +75,6 @@ public class AttendanceControllerTest {
 		att.setStatus("Pending");
 
 		String jsonInput = this.converttoJson(att);
-
-		//Mockito.when(attService.getAttendanceDetailsById(Mockito.any()).thenReturn(att));
-		//Assert.assertTrue(attService.getAttendanceDetailsById(employeeId));
 		MvcResult mvcResult = this.mockMvc
 				.perform(MockMvcRequestBuilders.get(URI, 102).accept(MediaType.APPLICATION_JSON)).andReturn();
 		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
@@ -82,7 +85,7 @@ public class AttendanceControllerTest {
 
 	@Test
 	public void testupdateAttendance() throws Exception {
-		String URI = "/api/v1/updateAttendance/{id}";
+		String URI = "/api/v2/updateAttendance/{id}";
 		Attendance att = new Attendance();
 		att.setAttendanceId(3);
 		att.setInTime(LocalTime.of(8, 30));
@@ -102,14 +105,13 @@ public class AttendanceControllerTest {
 
 	@Test
 	public void testdeleteAttendanceByEmpId() throws Exception {
-		String URI = "/api/v1/deleteAttendance/{id}";
+		String URI = "/api/v2/deleteAttendance/{id}";
 		Attendance att = new Attendance();
 		att.setAttendanceId(3);
 		att.setInTime(LocalTime.of(8, 30));
 		att.setOffTime(LocalTime.of(18, 00));
 		att.setStatus("Pending");
-
-		//Mockito.when(attService.getAttendanceDetailsById(Mockito.any())).thenReturn(att);
+		
 		Mockito.when(attService.deleteAttendanceByEmpId(Mockito.any())).thenReturn(true);
 		MvcResult mvcResult = this.mockMvc
 				.perform(MockMvcRequestBuilders.delete(URI, 105).accept(MediaType.APPLICATION_JSON)).andReturn();
@@ -120,7 +122,7 @@ public class AttendanceControllerTest {
 
 	@Test
 	public void testgetAllAttendance() throws Exception {
-		String URI = "/api/v1/getAllAttendance";
+		String URI = "/api/v2/getAllAttendance";
 		Attendance att = new Attendance();
 		att.setAttendanceId(3);
 		att.setInTime(LocalTime.of(8, 30));

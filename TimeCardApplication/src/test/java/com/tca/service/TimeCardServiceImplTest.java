@@ -1,7 +1,6 @@
 package com.tca.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doReturn;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -127,7 +125,7 @@ class TimeCardServiceImplTest {
 		tca.setTimeCardId(3);
 		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca));
 		try {
-			assertThat(tcardservice.updateEntries(0, LocalDate.now(), LocalTime.MIN, LocalTime.MAX)).isEqualTo(3);
+			assertThat(tcardservice.updateEntries(0, tca)).isEqualTo(3);
 		} catch (ResourceNotFoundException e) {
 			assertThat(e.getMessage()).isEqualTo("TimeCard not found for this id :: " + tca.getTimeCardId());
 		}
@@ -136,9 +134,9 @@ class TimeCardServiceImplTest {
 	@Test
 	void testUpdateFail() {
 		tca.setTimeCardId(4);
-		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca));
+		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca)); 
 		try {
-			assertThat(tcardservice.updateEntries(4, tca.getDate(),tca.getTimeEntry(),tca.getTimeExit())).isNotZero();
+			assertThat(tcardservice.updateEntries(4, tca)).isNotZero();
 		} catch (ResourceNotFoundException e) {
 			assertThat(e.getMessage()).isEqualTo("TimeCard not found for this id :: " + tca.getTimeCardId());
 		}
