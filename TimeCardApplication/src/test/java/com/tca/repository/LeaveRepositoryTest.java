@@ -81,7 +81,7 @@ class LeaveRepositoryTest {
 	}
 	@Test
     void testUpdateLeave() throws Exception{
-		Employee emp=new Employee();
+		Employee emp=new Employee(); 
 	       Leave leave=new Leave();
 	       leave.setLeaveId(2);
 	       leave.setStatus("Pending");

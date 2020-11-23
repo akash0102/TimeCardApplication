@@ -45,7 +45,7 @@ public class TimeCard implements Serializable{
 		super();
 	}
 	public TimeCard(Employee employee, LocalDate date, LocalTime timeEntry, LocalTime timeExit, String status) {
-		super();
+		super(); 
 		this.employee = employee;
 		this.date = date;
 		this.timeEntry = timeEntry;

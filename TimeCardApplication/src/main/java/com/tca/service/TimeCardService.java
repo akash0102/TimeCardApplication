@@ -1,6 +1,8 @@
 package com.tca.service;
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import com.tca.entity.TimeCard;
@@ -12,8 +14,8 @@ public interface TimeCardService {
 
 	boolean removeEntry(int timeCardId) throws ResourceNotFoundException;
 
-	int updateEntries(int id,TimeCard tca) throws ResourceNotFoundException;
+	int updateEntries(int id,LocalDate date,LocalTime inTime, LocalTime outTime) throws ResourceNotFoundException;
 
 	List<TimeCard> displayEntries(int employeeId);
-
+	
 }

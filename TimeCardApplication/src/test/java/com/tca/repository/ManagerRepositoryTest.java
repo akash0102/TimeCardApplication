@@ -20,7 +20,7 @@ import com.tca.entity.Manager;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class ManagerRepositoryTest {
+public class ManagerRepositoryTest { 
 	
 	@Autowired
 	private ManagerRepository ManagerRepository;
@@ -34,7 +34,7 @@ public class ManagerRepositoryTest {
 	    Manager manager=new Manager();
 	    manager.setManagerId(45);
 	    Employee emp=new Employee(5,"JIO","9701531212","abcd@gmail.com", manager);
-	    manager.setEmpl(emp);
+	    manager.getEmpl().add(emp);
 	    Manager savedManager=ManagerRepository.save(manager);
 	    assertNotNull(savedManager);
 	}
@@ -45,11 +45,11 @@ public class ManagerRepositoryTest {
 		Manager manager1=new Manager();
 	   	manager1.setManagerId(2550);
 	   	Employee emp=new Employee(5,"JIO","9701531212","abcd@gmail.com", manager1);
-		manager1.setEmpl(emp);
+		manager1.getEmpl().add(emp);
 	    Manager manager2=new Manager();
 	    manager2.setManagerId(22);
 	    Employee emp2=new Employee(5,"JIO","9701531212","abcd@gmail.com", manager2);
-		manager2.setEmpl(emp2);
+		manager2.getEmpl().add(emp2);
 	    	 
 	    testEntityManager.persist(manager1);
 	    testEntityManager.persist(manager2);
@@ -65,12 +65,12 @@ public class ManagerRepositoryTest {
     	Manager manager1=new Manager();
     	manager1.setManagerId(1);
     	Employee emp=new Employee(10,"MARINA","08512","marinas@gmail.com",manager1);
-    	manager1.setEmpl(emp);
+    	manager1.getEmpl().add(emp);
     	
     	Manager manager2=new Manager();
     	manager2.setManagerId(0);
     	Employee emp3=new Employee(12,"MARINA","08512","marinas@gmail.com",manager2);
-    	manager1.setEmpl(emp3);
+    	manager1.getEmpl().add(emp3);
     	
     	testEntityManager.persist(manager1);
     	testEntityManager.persist(manager2);
@@ -84,7 +84,7 @@ public class ManagerRepositoryTest {
     	Manager manager2=new Manager();
     	manager2.setManagerId(0);
     	Employee emp=new Employee(10,"MARINA","08512","marinas@gmail.com",manager2);
-    	manager2.setEmpl(emp);
+    	manager2.getEmpl().add(emp);
     	
     	testEntityManager.persist(manager2);
     	Manager  getFromDb =ManagerRepository.findById(0).get();

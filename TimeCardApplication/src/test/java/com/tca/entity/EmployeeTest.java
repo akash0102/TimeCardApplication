@@ -59,7 +59,7 @@ class EmployeeTest {
 	@Test
 	void testEmpPhNo() {
 		emp.setPhoneNumber("1234567890");
-		assertEquals("1234567890",emp.getPhoneNumber());
+		assertEquals("1234567890",emp.getPhoneNumber()); 
 	}
 	
 	

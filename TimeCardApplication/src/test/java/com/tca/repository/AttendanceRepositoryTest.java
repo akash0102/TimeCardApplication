@@ -61,7 +61,7 @@ class AttendanceRepositoryTest {
 		att1.setInTime(LocalTime.of(8, 15));
 		att1.setOffTime(LocalTime.of(18, 15));
 		att1.setFromDate(LocalDate.of(2020, 11, 20));
-		att1.setToDate(LocalDate.of(2020, 11, 22));
+		att1.setToDate(LocalDate.of(2020, 11, 22)); 
 		att1.setStatus("Pending");
 		Attendance att=attr.save(att1);
 		assertNotNull(att1);

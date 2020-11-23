@@ -27,8 +27,8 @@ public class ManagerController {
 
 	@PostMapping("/CreateManager")
 	public Manager createCompanyManger( @RequestBody Manager manager) {
-		return managerService.createManager(manager);
-	} 
+		return managerService.createManager(manager); 
+	}
 	
 	@PutMapping("/editManager/{id}")
 	public ResponseEntity<Manager> updateManager(@PathVariable(value = "id") Integer managerId,
@@ -37,8 +37,7 @@ public class ManagerController {
 		return  ResponseEntity.ok(manager);
 	}
 
-
-	@DeleteMapping("/{id}")	
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Boolean> deleteManager(@PathVariable(value = "id") Integer managerId) throws ResourceNotFoundException	{
 		
 		boolean manager = managerService.deleteManager(managerId);

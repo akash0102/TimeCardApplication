@@ -43,7 +43,7 @@ class TimeCardServiceImplTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		Employee emp=new Employee();
+		Employee emp=new Employee(); 
 		emp.setEmployeeId(3);
 		tca=new TimeCard();
 		tca2=new TimeCard();
@@ -127,7 +127,7 @@ class TimeCardServiceImplTest {
 		tca.setTimeCardId(3);
 		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca));
 		try {
-			assertThat(tcardservice.updateEntries(0, tca)).isEqualTo(3);
+			assertThat(tcardservice.updateEntries(0, LocalDate.now(), LocalTime.MIN, LocalTime.MAX)).isEqualTo(3);
 		} catch (ResourceNotFoundException e) {
 			assertThat(e.getMessage()).isEqualTo("TimeCard not found for this id :: " + tca.getTimeCardId());
 		}
@@ -138,7 +138,7 @@ class TimeCardServiceImplTest {
 		tca.setTimeCardId(4);
 		Mockito.when(tcardrepo.findById(tca.getTimeCardId())).thenReturn(Optional.of(tca));
 		try {
-			assertThat(tcardservice.updateEntries(4, tca)).isNotZero();
+			assertThat(tcardservice.updateEntries(4, tca.getDate(),tca.getTimeEntry(),tca.getTimeExit())).isNotZero();
 		} catch (ResourceNotFoundException e) {
 			assertThat(e.getMessage()).isEqualTo("TimeCard not found for this id :: " + tca.getTimeCardId());
 		}

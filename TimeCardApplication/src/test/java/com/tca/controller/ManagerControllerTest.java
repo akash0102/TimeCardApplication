@@ -45,7 +45,7 @@ public class ManagerControllerTest {
 		  emp.setEmployeeEmail("chiku@gmail.com");
 		  emp.setPhoneNumber("08512518301");
 		  manager.setManagerId(2);
-		  manager.setEmpl(emp);
+		  manager.getEmpl().add(emp);
 		  String jsonInput = this.converttoJson(manager);
 
 		  Mockito.when(managerService.createManager(manager)).thenReturn(manager);
@@ -67,7 +67,7 @@ public class ManagerControllerTest {
 			emp.setEmployeeName("MARINA");
 			emp.setEmployeeEmail("s@gmail.com");
 			emp.setPhoneNumber("08512");
-			manager.setEmpl(emp);
+			manager.getEmpl().add(emp);
 			String jsonInput = this.converttoJson(manager);
 	    	managerService.deleteManager(manager.getManagerId());
 	    	Mockito.when(managerService.deleteManager(Mockito.any())).thenReturn(true);
@@ -82,14 +82,14 @@ public class ManagerControllerTest {
 	 }
 	 @Test
 	 public void testUpdateManagerById() throws Exception{
-		 String URI= "/api/v2/Manager/{id}";
+		 String URI= "/api/v2/Manager/{id}"; 
 		 Manager manager=new Manager();
 		 manager.setManagerId(1);
 		 Employee emp=new Employee();
 		 emp.setEmployeeName("MARINA");
 		 emp.setEmployeeEmail("marinas@gmail.com");
 		 emp.setPhoneNumber("08512");
-		 manager.setEmpl(emp);
+		 manager.getEmpl().add(emp);
 		 String jsonInput = this.converttoJson(manager);
 		 Mockito.when(managerService.updateManager(Mockito.any(), Mockito.any())).thenReturn(manager);
 		 MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3)
@@ -112,7 +112,7 @@ public class ManagerControllerTest {
 			emp.setEmployeeName("MARINA");
 			emp.setEmployeeEmail("marinas@gmail.com");
 			emp.setPhoneNumber("08512");
-			manager1.setEmpl(emp);
+			manager1.getEmpl().add(emp);
 	    	
 	    	Manager manager2=new Manager();
 	    	manager2.setManagerId(0);
@@ -120,7 +120,7 @@ public class ManagerControllerTest {
 			emp2.setEmployeeName("MARINA");
 			emp2.setEmployeeEmail("marinas@gmail.com");
 			emp2.setPhoneNumber("08512");
-			manager2.setEmpl(emp2);
+			manager2.getEmpl().add(emp2);
 	    	
 	    	List<Manager> managerlist=new ArrayList<>();
 	    	managerlist.add(manager1);

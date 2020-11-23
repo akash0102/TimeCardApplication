@@ -17,61 +17,75 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tca.entity.Attendance;
 import com.tca.entity.Employee;
-import com.tca.entity.Manager;
 import com.tca.exception.ResourceNotFoundException;
 
 import com.tca.service.AttendanceServiceImpl;
+import com.tca.service.EmployeeService;
 
 
 
+
+/**
+ * @author akash
+ * controller layer for attendance
+ */
 @RestController
 @RequestMapping("/api/v2")
 public class AttendanceController {
 	@Autowired
 	private AttendanceServiceImpl attendanceService;
+	@Autowired
+	private EmployeeService empSer;
 
 	@GetMapping("/getAllAttendance")
 	public List<Attendance> getAllAttendance() {
-		return attendanceService.getAllAttendance();
+		return attendanceService.getAllAttendance(); 
 	}
 
-	@PostMapping("/saveAttendance")
-	public ResponseEntity<Attendance> saveAttendance(@RequestBody LocalDate date, LocalTime intime,LocalTime outtime) {
+	@PostMapping("/saveAttendance/{emp_id}")
+	public ResponseEntity<Attendance> saveAttendance(@PathVariable("emp_id") Integer empId,@RequestBody String date,
+												@RequestBody String intime, @RequestBody String outtime) {
 		Attendance atts=new Attendance();
-		Employee emp=new Employee();
-		emp.setEmployeeEmail("abcd@gmail.com");
-		emp.setEmployeeId(100);
-		emp.setEmployeeName("abcd");
-		emp.setEmployeeRole("Developer");
-		emp.setManager(new Manager());
-		emp.setPhoneNumber("1234567890");
+		Employee emp=empSer.getEmpById(empId);
 		atts.setEmployee(emp);
-		atts.setFromDate(date);
-		atts.setToDate(date);
-		atts.setInTime(intime);
-		atts.setOffTime(outtime);
+		atts.setFromDate(LocalDate.parse(date));
+		atts.setToDate(LocalDate.parse(date));
+		atts.setInTime(LocalTime.parse(intime));
+		atts.setOffTime(LocalTime.parse(outtime));
 		atts.setStatus("Pending");
-		return ResponseEntity.ok().body(attendanceService.saveAttendanceDetails(atts));
+		Attendance resultAttendance=attendanceService.saveAttendanceDetails(atts);
+		if(resultAttendance==null) {
+			atts.setStatus("EmployeeNotFound");
+		}
+		else {
+			atts=resultAttendance;
+		}
+		return ResponseEntity.ok().body(atts);
 	}
 
 	@GetMapping("/getAttendance/{id}")
 	public ResponseEntity<List<Attendance>> getAttendanceById(@PathVariable(value = "id") Integer employeeId)
-			throws ResourceNotFoundException {
-		List<Attendance> atts = attendanceService.getAttendanceDetailsById(employeeId);
+					throws ResourceNotFoundException {
+		List<Attendance> atts = attendanceService.getAttendanceByEmpId(employeeId);
 		return ResponseEntity.ok().body(atts);
 	}
 
 	@PutMapping("/updateAttendance/{id}")
 	public ResponseEntity<Attendance> updateAttendanceById(@PathVariable(value = "id") Integer attendanceId,
-			@RequestBody Attendance att) throws ResourceNotFoundException {
-		Attendance atts = attendanceService.updateAttendanceById(attendanceId, att);
-		return ResponseEntity.ok(atts);
+				@RequestBody String fromDate,@RequestBody String toDate,@RequestBody String inTime,
+				@RequestBody String outTime) throws ResourceNotFoundException {
+		Attendance atts=attendanceService.getAttendanceById(attendanceId);
+		atts.setFromDate(LocalDate.parse(fromDate));
+		atts.setToDate(LocalDate.parse(toDate));
+		atts.setInTime(LocalTime.parse(inTime));
+		atts.setOffTime(LocalTime.parse(outTime));
+		return ResponseEntity.ok(attendanceService.updateAttendanceById(attendanceId, atts));
 	}
 
 	@DeleteMapping("/deleteAttendance/{id}")
-	public ResponseEntity<Boolean> deleteUsers(@PathVariable(value = "id") Integer attendanceId,
-			@RequestBody Attendance att) throws ResourceNotFoundException {
-		Boolean att1 = attendanceService.deleteAttendanceDetailsById(attendanceId);
+	public ResponseEntity<Boolean> deleteUsers(@PathVariable(value = "id") Integer attendanceId)
+					throws ResourceNotFoundException {
+		Boolean att1 = attendanceService.deleteAttendanceByEmpId(attendanceId);
 		return ResponseEntity.ok(att1);
 	}
 

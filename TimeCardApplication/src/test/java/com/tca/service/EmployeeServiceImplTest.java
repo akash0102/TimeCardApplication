@@ -17,7 +17,7 @@ import com.tca.entity.Employee;
 import com.tca.repository.EmployeeRepository;
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class EmployeeServiceImplTest {
+class EmployeeServiceImplTest {  
 	
 	
 	@MockBean

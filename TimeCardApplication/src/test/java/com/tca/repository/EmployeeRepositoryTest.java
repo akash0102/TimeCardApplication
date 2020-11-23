@@ -39,7 +39,7 @@ class EmployeeRepositoryTest {
     
 	@Test
     void testNewEmployee() throws Exception{
-    	Employee saveInDb=testEntityManager.persist(employee);
+    	Employee saveInDb=testEntityManager.persist(employee); 
     	assertThat(saveInDb).isEqualTo(employee);
 	 }
 	 

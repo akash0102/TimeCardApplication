@@ -28,7 +28,7 @@ public class ManagerServiceImpl  implements ManagerService {
 	
 	
 	public Manager createManager( @RequestBody Manager manager) {
-		return  managerRepository.save(manager);
+		return  managerRepository.save(manager); 
 	}
 	 
 	public Manager updateManager(@PathVariable(value = "id") Integer managerId,
@@ -36,7 +36,7 @@ public class ManagerServiceImpl  implements ManagerService {
 		Manager manager = managerRepository.findById(managerId)
 			.orElseThrow(() -> new ResourceNotFoundException("Company Manager not found for this id :: " + managerId));
 		manager.setManagerId(managerDetails.getManagerId());
-		manager.setEmps(managerDetails.getEmps());
+		manager.setEmpl(managerDetails.getEmpl());
 		final Manager updatedManager = managerRepository.save(manager);
 		return updatedManager; 
 		
@@ -51,12 +51,18 @@ public class ManagerServiceImpl  implements ManagerService {
 		return true;
 	}
 	 
-	public List<Manager> getAllManager() {
+	public List<Manager> getAllManager() { 
 		return managerRepository.findAll();
 	} 
 	
 	public Set<Employee> getEmployees(int manId){
 		Manager another=managerRepository.getOne(manId);
-		return another.getEmps();
+		return another.getEmpl();
+	}
+
+	@Override
+	public Manager getManagerById(Integer managerId) {
+		
+		return managerRepository.getOne(managerId);
 	}
 }

@@ -41,7 +41,7 @@ class LeaveTest {
 	
 	@Test
 	void testGetLeaveIdFalse() {
-		leaveObj.setLeaveId(100);
+		leaveObj.setLeaveId(100); 
 		assertNotEquals(400,leaveObj.getLeaveId());
 	}
 	

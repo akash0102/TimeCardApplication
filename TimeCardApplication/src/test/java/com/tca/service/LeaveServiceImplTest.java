@@ -63,7 +63,7 @@ class LeaveServiceImplTest {
     @Test
     void testUpdateLeave() throws Exception{
     	
-    	Mockito.when(leaveRep.save(lea)).thenReturn(lea);
+    	Mockito.when(leaveRep.save(lea)).thenReturn(lea); 
 		assertThat(leaveService.updateLeave(3, LocalDate.MIN,LocalDate.MAX)).isEqualTo(3);
     }
     

@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TimeCardApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void contextLoads() { 
 		assertTrue(true);
 	}
 

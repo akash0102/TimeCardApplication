@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.tca.entity.Employee;
 import com.tca.entity.Leave;
-import com.tca.entity.TimeCard;
 
 @Repository
 public interface LeaveRepository extends JpaRepository<Leave, Integer>{

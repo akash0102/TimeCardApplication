@@ -16,22 +16,41 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tca.exception.ResourceNotFoundException;
 import com.tca.entity.Employee;
+import com.tca.entity.Manager;
 import com.tca.service.EmployeeService;
+import com.tca.service.ManagerService;
 
+
+
+/**
+ * @author dinesh
+ * controller class for attendance
+ */
 @RestController
 @RequestMapping("/api/v2/Employee")
 public class EmployeeController {
 	
+	Logger log=Logger.getLogger(getClass());
+	
 	@Autowired
 	private EmployeeService employeeService;
+	
+	@Autowired
+	private ManagerService manServ;
 
 	@GetMapping("/all")
 	public ResponseEntity<List<Employee>> getAllEmployee() {
-		return ResponseEntity.ok(employeeService.getAllEmployee());
+		return ResponseEntity.ok(employeeService.getAllEmployee()); 
 	} 
 	
-	@PostMapping("/CreateEmployee")
-	public ResponseEntity<Employee> createEmployee( @RequestBody Employee employee) {
+	@PostMapping("/CreateEmployee/{man_id}")
+	public ResponseEntity<Employee> createEmployee( @RequestBody Employee employee,@PathVariable("man_id") Integer managerId) throws ResourceNotFoundException {
+		Manager man=manServ.getManagerById(managerId);
+		if(man!=null)
+			employee.setManager(man);
+		else {
+			log.warn(man+" is null");
+		}
 		return ResponseEntity.ok(employeeService.createEmployee(employee));
 	}
 	

@@ -72,7 +72,7 @@ public class Employee implements Serializable{
 	}
 	
 	public Manager getManager() {
-		return manager;
+		return manager; 
 	}
 	public void setManager(Manager manager) {
 		this.manager = manager;

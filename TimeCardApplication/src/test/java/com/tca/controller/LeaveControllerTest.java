@@ -39,12 +39,10 @@ class LeaveControllerTest {
     @MockBean
     private LeaveService leaveservice;
 
-
-	
 	  @Test
 	  public void testaddLeave() throws Exception{
 	  String URI = "/leave/apply";
-	  Leave lea=new Leave();
+	  Leave lea=new Leave(); 
 	  lea.setFromDate(LocalDate.MIN);
 	  lea.setToDate(LocalDate.MAX);
 	  lea.setEmployee(new Employee());

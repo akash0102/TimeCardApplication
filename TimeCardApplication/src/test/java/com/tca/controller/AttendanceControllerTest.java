@@ -101,7 +101,7 @@ public class AttendanceControllerTest {
 	}
 
 	@Test
-	public void testdeleteAttendanceDetailsById() throws Exception {
+	public void testdeleteAttendanceByEmpId() throws Exception {
 		String URI = "/api/v1/deleteAttendance/{id}";
 		Attendance att = new Attendance();
 		att.setAttendanceId(3);
@@ -110,7 +110,7 @@ public class AttendanceControllerTest {
 		att.setStatus("Pending");
 
 		//Mockito.when(attService.getAttendanceDetailsById(Mockito.any())).thenReturn(att);
-		Mockito.when(attService.deleteAttendanceDetailsById(Mockito.any())).thenReturn(true);
+		Mockito.when(attService.deleteAttendanceByEmpId(Mockito.any())).thenReturn(true);
 		MvcResult mvcResult = this.mockMvc
 				.perform(MockMvcRequestBuilders.delete(URI, 105).accept(MediaType.APPLICATION_JSON)).andReturn();
 		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
@@ -135,7 +135,7 @@ public class AttendanceControllerTest {
 		attList.add(att);
 		attList.add(att1);
 
-		String jsonInput = this.converttoJson(attList);
+		String jsonInput = this.converttoJson(attList); 
 
 		Mockito.when(attService.getAllAttendance()).thenReturn(attList);
 		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON))

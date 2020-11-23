@@ -24,20 +24,17 @@ public class AttendanceServiceImpl implements AttendanceService {
 	}
 
 	@Override
-	public List<Attendance> getAttendanceDetailsById(Integer employeeId) throws ResourceNotFoundException {
+	public List<Attendance> getAttendanceByEmpId(Integer employeeId) throws ResourceNotFoundException {
 		
-		return attdetails.findByEmpId(employeeId);
+		return attdetails.findByEmpId(employeeId); 
 	}
 
 	@Override
-	public boolean deleteAttendanceDetailsById(Integer attendanceId) throws ResourceNotFoundException {
+	public boolean deleteAttendanceByEmpId(Integer attendanceId) throws ResourceNotFoundException {
 		Attendance att = attdetails.findById(attendanceId).orElseThrow(
 				() -> new ResourceNotFoundException("Attendance not found for this id :: " + attendanceId));
 		attdetails.delete(att);
-		if (null == att) {
-			return true;
-		}
-		return false;
+		return att==null;
 	}
 
 	@Override
@@ -49,14 +46,17 @@ public class AttendanceServiceImpl implements AttendanceService {
 		att.setOffTime(atts.getOffTime());
 		att.setStatus(atts.getStatus());
 
-		final Attendance updatedAttendance = attdetails.save(att);
-		return updatedAttendance;
+		return attdetails.save(att);
 	}
 
 	@Override
 	public Attendance saveAttendanceDetails(Attendance att) {
-
 		return attdetails.save(att); 
+	}
+	
+	@Override
+	public Attendance getAttendanceById(Integer attendanceId) {
+		return attdetails.getOne(attendanceId);
 	}
 
 }

@@ -19,7 +19,7 @@ public class Myswaggerconfig {
 
 	// The select() method called on Docket bean returns an "ApiSelectorBuilder". This provides "apis()" and "paths()" methods to filter the controllers and methods being documented using string predicates.
 	@Bean
-	public Docket postsApi() {
+	public Docket postsApi() { 
 		return new Docket(DocumentationType.SWAGGER_2).apiInfo(metadata()).select().paths(regex("/api/v2.*")).build();
 	}
 	

@@ -41,7 +41,7 @@ public class Leave implements Serializable{
 	
 	public Leave() {
 		super();
-	}
+	} 
 	public Leave(LocalDate fromDate, LocalDate toDate) {
 		this.fromDate=fromDate;
 		this.toDate=toDate;

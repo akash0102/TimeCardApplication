@@ -35,7 +35,7 @@ class EmployeeControllerTest {
 
 	 @Test
 	    void testNewEmployee() throws Exception{
-		  String URI = "/api/v2/CreateEmployee";
+		  String URI = "/api/v2/CreateEmployee"; 
 		  Employee employee=new Employee();
 		  employee.setEmployeeId(1);
 		  employee.setEmployeeName("amrutha");

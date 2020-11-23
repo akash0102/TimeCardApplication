@@ -34,7 +34,7 @@ public class ManagerServiceImplTest {
 		Manager manager=new Manager();
 		manager.setManagerId(1);
 		Employee emp=new Employee(10,"085126767","085126767","mainas@gmail.com",manager);
-		manager.setEmpl(emp);
+		manager.getEmpl().add(emp);
 		Mockito.when(managerRepository.save(manager)).thenReturn(manager);  
 		assertThat(managerService.createManager(manager)).isEqualTo(manager);               
 	}
@@ -44,12 +44,12 @@ public class ManagerServiceImplTest {
 		Manager manager1=new Manager();
 		manager1.setManagerId(1);
 		Employee emp=new Employee(10,"085126767","085126767","mainas@gmail.com",manager1);
-		manager1.setEmpl(emp);
+		manager1.getEmpl().add(emp);
 		 
 		Manager manager2=new Manager();
 		manager2.setManagerId(1);
 		Employee emp2=new Employee(10,"085126767","085126767","mainas@gmail.com",manager2);
-		manager2.setEmpl(emp2); 
+		manager2.getEmpl().add(emp2); 
 		List<Manager> managerlist = new ArrayList<>();
 		managerlist.add(manager1);
 		managerlist.add(manager2);
@@ -63,7 +63,7 @@ public class ManagerServiceImplTest {
 		Manager manager=new Manager();
 		manager.setManagerId(1);
 		Employee emp=new Employee(10,"085126767","085126767","mainas@gmail.com",manager);
-		manager.setEmpl(emp);
+		manager.getEmpl().add(emp);
 		managerRepository.deleteById(manager.getManagerId());
 		System.out.println(managerRepository.findById(1));
 		Assert.assertTrue(managerRepository.findById(1).isEmpty());    
@@ -73,7 +73,7 @@ public class ManagerServiceImplTest {
 		Manager manager2=new Manager();
 		manager2.setManagerId(1);
 		Employee emp=new Employee(10,"085126767","085126767","mainas@gmail.com",manager2);
-		manager2.setEmpl(emp);
+		manager2.getEmpl().add(emp);  
 		managerRepository.deleteById(manager2.getManagerId());
 		System.out.println(managerRepository.findById(1));
 		Assert.assertTrue(managerRepository.findById(1).isEmpty());    

@@ -1,6 +1,8 @@
 package com.tca.service;
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +22,7 @@ public class TimeCardServiceImpl implements TimeCardService {
 	
 	@Override
 	public TimeCard saveTimeEntry(TimeCard timeCard) {
-		return daoCaller.save(timeCard);
+		return daoCaller.save(timeCard); 
 	}
 
 	@Override
@@ -35,13 +37,12 @@ public class TimeCardServiceImpl implements TimeCardService {
 	}
 	
 	@Override
-	public int updateEntries(int id,TimeCard tca) throws ResourceNotFoundException {
+	public int updateEntries(int id,LocalDate date,LocalTime intime, LocalTime outtime ) throws ResourceNotFoundException {
 		
 		TimeCard timecard=daoCaller.findById(id).orElseThrow(() -> new ResourceNotFoundException(" TimeCard not found for this id :: " + id));
-		timecard.setEmployee(tca.getEmployee());
-		timecard.setDate(tca.getDate());
-		timecard.setTimeEntry(tca.getTimeEntry());
-		timecard.setTimeExit(tca.getTimeExit());
+		timecard.setDate(date);
+		timecard.setTimeEntry(intime);
+		timecard.setTimeExit(outtime);
 		daoCaller.save(timecard);
 		return timecard.getTimeCardId();
 	}
@@ -52,5 +53,4 @@ public class TimeCardServiceImpl implements TimeCardService {
 		return daoCaller.findByEmpId(empId);
 		
 	}
-
 }

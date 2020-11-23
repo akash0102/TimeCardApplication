@@ -23,7 +23,7 @@ public class LeaveServiceImpl implements LeaveService{
 	
 	@Override
 	public Leave addLeave(Leave leave) {
-		return leaveRep.save(leave);
+		return leaveRep.save(leave); 
 		
 	}
 

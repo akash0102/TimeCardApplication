@@ -9,9 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -28,33 +26,31 @@ public class Manager implements Serializable{
 	@Column(name="MAN_ID")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int managerId;
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="EMP_ID")
-	private Employee empl;
-	
-	@OneToMany(mappedBy = "manager",
-	           cascade = CascadeType.ALL,
-	           orphanRemoval = true)
-	@Column(name="EMPS")
+	@OneToMany(mappedBy = "manager",cascade = CascadeType.ALL)
+	@Column(name="EMP_ID")
 	private Set<Employee> emps;
+	@Column(name="MAN_NAME")
+	private String managerName;
+	@Column(name="MAN_PHNO")
+	private String managerNumber;
+	@Column(name="MAN_EMAIL")
+	private String managerEmail;
+	@Column(name="PASSWORD")
+	private String pass;
+	@Column(name="USER_ID")
+	private String userId; 
 	
-	public Set<Employee> getEmps() {
-		return emps;
-	}
-	public void setEmps(Set<Employee> emps) {
-		this.emps = emps;
-	}
 	public int getManagerId() {
 		return managerId;
 	}
 	public void setManagerId(int managerId) {
 		this.managerId = managerId;
 	}
-	public Employee getEmpl() {
-		return empl;
+	public Set<Employee> getEmpl() {
+		return emps;
 	}
-	public void setEmpl(Employee empl) {
-		this.empl = empl;
+	public void setEmpl(Set<Employee> emps) {
+		this.emps = emps;
 	}
 	@Override
 	public int hashCode() {
@@ -73,11 +69,43 @@ public class Manager implements Serializable{
 		Manager other = (Manager) obj;
 		return (managerId != other.managerId);
 	}
+	
+	
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+	public String getManagerNumber() {
+		return managerNumber;
+	}
+	public void setManagerNumber(String managerNumber) {
+		this.managerNumber = managerNumber;
+	}
+	public String getManagerEmail() {
+		return managerEmail;
+	}
+	public void setManagerEmail(String managerEmail) {
+		this.managerEmail = managerEmail;
+	}
+	public String getPass() {
+		return pass;
+	}
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	@Override
 	public String toString() {
-		return "Manager [managerId=" + managerId + ", emps=" + emps + "]";
+		return "Manager [managerId=" + managerId + ", emps=" + emps + ", managerName=" + managerName
+				+ ", managerNumber=" + managerNumber + ", managerEmail=" + managerEmail + "]";
 	}
-
 	
 	
 }

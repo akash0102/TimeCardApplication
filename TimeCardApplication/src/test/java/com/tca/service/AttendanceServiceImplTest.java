@@ -25,7 +25,7 @@ import com.tca.repository.AttendanceRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class AttendanceServiceImplTest {
+class AttendanceServiceImplTest { 
 
 	@MockBean
     private AttendanceRepository attd;
@@ -79,8 +79,8 @@ class AttendanceServiceImplTest {
 		ArrayList<Attendance> attlist=new ArrayList<>();
 		attlist.add(att1);
 		attlist.add(att2);
-		Mockito.when(atts.getAttendanceDetailsById(1)).thenReturn(attlist);
-		assertThat(atts.getAttendanceDetailsById(1)).isEqualTo(attlist);
+		Mockito.when(atts.getAttendanceByEmpId(1)).thenReturn(attlist);
+		assertThat(atts.getAttendanceByEmpId(1)).isEqualTo(attlist);
 	}
 
 	@Test
@@ -97,7 +97,7 @@ class AttendanceServiceImplTest {
 		att1.setStatus("Pending");
 		attd.save(att1);
 		
-		Assert.assertEquals(atts.deleteAttendanceDetailsById(4),true);
+		Assert.assertEquals(atts.deleteAttendanceByEmpId(4),true);
 	}
 
 	@Test

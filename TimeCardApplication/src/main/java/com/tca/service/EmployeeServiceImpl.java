@@ -5,20 +5,28 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.tca.exception.ResourceNotFoundException;
 import com.tca.entity.Employee;
+import com.tca.entity.Manager;
 import com.tca.repository.EmployeeRepository;
+import com.tca.repository.ManagerRepository;
+
+
 @Service
 @Transactional
 public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	public Employee createEmployee( @RequestBody Employee employee) {
+	
+	@Autowired
+	private ManagerService manService;
+	
+	public Employee createEmployee(Employee employee) throws ResourceNotFoundException {
+		Manager manager=manService.getManagerById(employee.getManager().getManagerId());
+		manager.getEmpl().add(employee); 
+		manService.updateManager(manager.getManagerId(),manager);
 		return  employeeRepository.save(employee);
 	}	
 
@@ -33,18 +41,23 @@ public class EmployeeServiceImpl implements EmployeeService{
 	return updatedEmployee; 
 } 
  
- public boolean deleteEmployeeById(@PathVariable(value = "id") Integer employeeId)
+ 	public boolean deleteEmployeeById( Integer employeeId)
 			throws ResourceNotFoundException {
-	 Employee employee = employeeRepository.findById(employeeId)
+ 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
 
 		employeeRepository.delete(employee);
 		return true;
-}
+ 	}
 
- public List<Employee> getAllEmployee() {
+ 	public List<Employee> getAllEmployee() {
 		 return employeeRepository.findAll();
-		}
+	}
+
+@Override
+public Employee getEmpById(int empId) {
+	return employeeRepository.getOne(empId);
+}
 
 	
 }

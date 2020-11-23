@@ -14,14 +14,6 @@ public interface ManagerService {
 	Manager updateManager(Integer managerId, Manager managerDetails) throws ResourceNotFoundException;
 	boolean deleteManager(Integer managerId) throws ResourceNotFoundException;
 	List<Manager> getAllManager();
-
-	
-//	Employee createEmployee(Employee employee);
-//	ResponseEntity<Employee> updateEmployee(Integer employeeId, Employee employeeDetails) throws ResourceNotFoundException;
-//	boolean deleteEmployeeById(Integer employeeId) throws ResourceNotFoundException;
-//	List<Employee> getAllEmployee();
-	//Employee findEmployeeById(Integer employee);
-	
-	
+	Manager getManagerById(Integer managerId);
 	 
 }

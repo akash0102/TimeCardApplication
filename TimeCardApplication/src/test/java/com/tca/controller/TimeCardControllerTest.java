@@ -102,13 +102,10 @@ class TimeCardControllerTest {
 	 @Test
 	 public void testUpdateTimeCradByEmpId() throws Exception{
 		 String URI= "/api/v2/timeCardEdit/{id}";
-		 TimeCard newCard=new TimeCard();
-		 newCard.setEmployee(emp);
-		 newCard.setDate(LocalDate.of(2020, 05, 17));
-		 newCard.setTimeEntry(LocalTime.of(9, 03));
-		 newCard.setTimeExit(LocalTime.of(18, 35));
 		 String jsonInput = this.converttoJson(tcard);
-		 Mockito.when(tcardService.updateEntries(100, newCard)).thenReturn(newCard.getTimeCardId());
+		 Mockito.when(tcardService.updateEntries(100, LocalDate.of(2020, 05, 17)
+				 					,LocalTime.of(9, 03),LocalTime.of(18, 35)))
+		 							.thenReturn(tcard.getTimeCardId());
 		 MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3)
 				 			.accept(MediaType.APPLICATION_JSON)
 				 			.content(jsonInput).contentType(MediaType.APPLICATION_JSON))
@@ -153,6 +150,6 @@ class TimeCardControllerTest {
      */
     private String converttoJson(Object manager) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(manager);
+        return objectMapper.writeValueAsString(manager); 
     }
 }

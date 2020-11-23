@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tca.entity.Employee;
 import com.tca.entity.TimeCard;
 import com.tca.exception.ResourceNotFoundException;
+import com.tca.service.EmployeeService;
 import com.tca.service.TimeCardService;
 
 @RestController
@@ -27,28 +28,35 @@ public class TimeCardController {
 	@Autowired
 	private TimeCardService tcs;
 	
+	@Autowired
+	private EmployeeService empSer;
+	
 	@GetMapping("/employee/{id}")
-	public ResponseEntity<List<TimeCard>> getEmployeeById(@PathVariable(value = "id") int employeeId){
+	public ResponseEntity<List<TimeCard>> getEmployeeById(@PathVariable(value = "id") Integer employeeId){
 		List<TimeCard> timecard = tcs.displayEntries(employeeId);
 		return ResponseEntity.ok().body(timecard);
 	}
 	
 	
-	@PostMapping("/addEmployee/")
-	public ResponseEntity<TimeCard> createTimeCard( @RequestBody Employee employee,LocalDate date,LocalTime fromTime,LocalTime toTime) {
+	@PostMapping("/timecardEntry/")
+	public ResponseEntity<TimeCard> createTimeCard( @RequestBody Integer employeeId,String date,String fromTime,String toTime) {
 		TimeCard tc=new TimeCard();
-		tc.setEmployee(employee);
+		Employee employee=empSer.getEmpById(employeeId);
+		if(employee!=null)
+			tc.setEmployee(employee);
 		tc.setStatus("Pending");
-		tc.setTimeEntry(fromTime);
-		tc.setTimeExit(toTime);
-		tc.setDate(date);
+		tc.setTimeEntry(LocalTime.parse(fromTime));
+		tc.setTimeExit(LocalTime.parse(toTime)); 
+		tc.setDate(LocalDate.parse(date));
 		return ResponseEntity.ok().body(tcs.saveTimeEntry(tc));
 	}
 	
 	
 	@PutMapping("/timeCardEdit/{id}")
-	public ResponseEntity<Integer> editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody TimeCard tc) throws ResourceNotFoundException{
-		return ResponseEntity.ok(tcs.updateEntries(id, tc));		
+	public ResponseEntity<Integer> editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody String date,
+									@RequestBody String inTime,@RequestBody String outTime) throws ResourceNotFoundException{
+		
+		return ResponseEntity.ok(tcs.updateEntries(id, LocalDate.parse(date), LocalTime.parse(inTime), LocalTime.parse(outTime)));
 	}
 	
 	@DeleteMapping("/timecardDelete/{id}")

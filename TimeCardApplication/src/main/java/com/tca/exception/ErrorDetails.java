@@ -11,7 +11,7 @@ public class ErrorDetails {
 		super();
 		this.timestamp = timestamp;
 		this.message = message;
-		this.details = details;
+		this.details = details; 
 	}
 
 	public Date getTimestamp() {

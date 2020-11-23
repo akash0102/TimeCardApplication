@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="ATTENDANCE")
 @NamedQuery(name = "Attendance.getAllById", query = "SELECT t FROM Attendance t where t.employee=:emp")
-public class Attendance implements Serializable{
+public class Attendance implements Serializable{ 
 	/**
 	 * 
 	 */
