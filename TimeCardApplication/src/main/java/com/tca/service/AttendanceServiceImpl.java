@@ -31,10 +31,12 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	@Override
 	public boolean deleteAttendanceByEmpId(Integer attendanceId) throws ResourceNotFoundException {
+		boolean del;
 		Attendance att = attdetails.findById(attendanceId).orElseThrow(
 				() -> new ResourceNotFoundException("Attendance not found for this id :: " + attendanceId));
-		attdetails.delete(att);
-		return att==null; 
+		del=att!=null;
+		attdetails.deleteId(attendanceId);
+		return del;
 	}
 
 	@Override
@@ -42,6 +44,8 @@ public class AttendanceServiceImpl implements AttendanceService {
 		Attendance att = attdetails.findById(attendanceId).orElseThrow(
 				() -> new ResourceNotFoundException("Attendance not found for this id :: " + attendanceId));
 		att.setAttendanceId(atts.getAttendanceId());
+		att.setFromDate(atts.getFromDate());
+		att.setToDate(atts.getToDate());
 		att.setInTime(atts.getInTime());
 		att.setOffTime(atts.getOffTime());
 		att.setStatus(atts.getStatus());

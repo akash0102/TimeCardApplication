@@ -72,4 +72,11 @@ public class TimeCardController {
 		return ResponseEntity.ok(tcs.removeEntry(id));
 	}
 	
+	@ApiOperation(value = "get all timecards", response = Iterable.class, tags = "TimeCardControllerClass")
+	@GetMapping("/timecards")
+	public ResponseEntity<List<TimeCard>> getAllEntries(){
+		List<TimeCard> timecard = tcs.displayAll();
+		return ResponseEntity.ok().body(timecard);
+	}
+	
 }

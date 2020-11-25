@@ -59,11 +59,13 @@ public class LeaveController {
 		return leaveservice.removeLeave(leaveId); 
 	}
 	
+	@ApiOperation(value = "update leave", response = Integer.class, tags = "LeaveControllerClass")
 	@PutMapping("/updateLeave/{leaveId}")
 	public int updateLeave(@RequestBody Leave leave ,@PathVariable("leaveId") Integer leaveId ) throws ResourceNotFoundException {
 		return leaveservice.updateLeave(leaveId,leave);
 	}
 	
+	@ApiOperation(value = "find leave", response = Iterable.class, tags = "LeaveControllerClass")
 	@GetMapping("/getAllLeaves/{emp_id}")
 	public ResponseEntity<List<Leave>> getAllLeaves(@PathVariable("emp_id") Integer empId) {
 		return ResponseEntity.ok(leaveservice.findByEmpId(empId));

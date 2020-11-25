@@ -15,5 +15,7 @@ public interface TimeCardService {
 	int updateEntries(int id,TimeCard tcard) throws ResourceNotFoundException;
 
 	List<TimeCard> displayEntries(int employeeId);
+
+	List<TimeCard> displayAll();
 	
 }

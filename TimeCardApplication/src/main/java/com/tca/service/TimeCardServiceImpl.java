@@ -26,10 +26,8 @@ public class TimeCardServiceImpl implements TimeCardService {
 	public boolean removeEntry(int timeCardId) throws ResourceNotFoundException {
 		boolean check=false;
 		TimeCard toDelete= daoCaller.findById(timeCardId).orElseThrow(() -> new ResourceNotFoundException("TimeCard not found for this id :: " + timeCardId));
-		daoCaller.delete(toDelete);
-		if(daoCaller.findById(timeCardId).isEmpty()) {
-			check=true;
-		}
+		check=(toDelete!=null);
+		daoCaller.deleteId(timeCardId);
 		return check;
 	}
 	
@@ -49,5 +47,10 @@ public class TimeCardServiceImpl implements TimeCardService {
 		
 		return daoCaller.findByEmpId(empId);
 		
+	}
+
+	@Override
+	public List<TimeCard> displayAll() {
+		return daoCaller.findAll();
 	}
 }
