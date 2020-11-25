@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +15,21 @@ import com.tca.exception.ResourceNotFoundException;
 @Service
 @Transactional
 public class AttendanceServiceImpl implements AttendanceService {
+	
+	Logger log=Logger.getLogger(getClass());
 
 	@Autowired
 	private AttendanceRepository attdetails; 
 
 	@Override
 	public List<Attendance> getAllAttendance() {
+		log.info("all attendance details");
 		return attdetails.findAll();
 	}
 
 	@Override
 	public List<Attendance> getAttendanceByEmpId(Integer employeeId) throws ResourceNotFoundException {
-		
+		log.info("fetched all attendance by an employee with id "+employeeId);
 		return attdetails.findByEmpId(employeeId); 
 	}
 
@@ -36,6 +40,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 				() -> new ResourceNotFoundException("Attendance not found for this id :: " + attendanceId));
 		del=att!=null;
 		attdetails.deleteId(attendanceId);
+		log.info("attendance with id "+attendanceId+" successfully");
 		return del;
 	}
 
@@ -49,17 +54,19 @@ public class AttendanceServiceImpl implements AttendanceService {
 		att.setInTime(atts.getInTime());
 		att.setOffTime(atts.getOffTime());
 		att.setStatus(atts.getStatus());
-
+		log.info("attendance updated successfully");
 		return attdetails.save(att);
 	}
 
 	@Override
 	public Attendance saveAttendanceDetails(Attendance att) {
-		return attdetails.save(att); 
+		log.info("attendance saved succesfully");
+		return attdetails.save(att);
 	}
 	
 	@Override
 	public Attendance getAttendanceById(Integer attendanceId) {
+		log.info("attendance for id "+attendanceId+" fetched");
 		return attdetails.getOne(attendanceId);
 	}
 

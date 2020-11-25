@@ -11,7 +11,7 @@ public interface LeaveService {
 
 	public Leave findLeave(int leaveId) throws ResourceNotFoundException;
 
-	int removeLeave(int leaveId);
+	int removeLeave(int leaveId) throws ResourceNotFoundException;
 
 	List<Leave> findByEmpId(int empId);
 

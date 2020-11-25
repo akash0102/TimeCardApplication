@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
+	Logger log=Logger.getLogger(getClass());
+	
 	@Autowired
 	private ManagerService manService;
 	
@@ -26,6 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		Manager manager=manService.getManagerById(employee.getManager().getManagerId());
 		manager.getEmpl().add(employee); 
 		manService.updateManager(manager.getManagerId(),manager);
+		log.info("employee with id "+employee.getEmployeeId()+" created");
 		return  employeeRepository.save(employee);
 	}	
 
@@ -37,6 +41,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	employee.setEmployeeEmail(employeeDetails.getEmployeeEmail());
 	employee.setPhoneNumber(employeeDetails.getPhoneNumber());
 	final Employee updatedEmployee = employeeRepository.save(employee);
+	log.info("employee id "+updatedEmployee.getEmployeeId()+" updated");
 	return updatedEmployee; 
 } 
  
@@ -46,16 +51,21 @@ public class EmployeeServiceImpl implements EmployeeService{
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
 
 		employeeRepository.delete(employee);
+		log.info("employee removed");
 		return true;
  	}
 
  	public List<Employee> getAllEmployee() {
-		 return employeeRepository.findAll();
+ 		log.info("list of employees fetched");
+		return employeeRepository.findAll();
 	} 
 
 	@Override
-	public Employee getEmpById(int empId) {
-		return employeeRepository.findById(empId).get();
+	public Employee getEmpById(int empId) throws ResourceNotFoundException {
+		Employee emp=employeeRepository.findById(empId)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + empId));
+		log.info("employee fetched by Id "+empId);
+		return emp;
 	}
 
 	

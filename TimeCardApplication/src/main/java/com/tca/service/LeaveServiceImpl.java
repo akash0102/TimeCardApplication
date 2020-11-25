@@ -1,7 +1,6 @@
 package com.tca.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +28,13 @@ public class LeaveServiceImpl implements LeaveService{
 	}
 
 	@Override
-	public int removeLeave(int leaveId) {
-		Optional<Leave> toDelete= leaveRep.findById(leaveId);
-		if(toDelete.isPresent()) {
-			leaveRep.delete(toDelete.get());	
-		}
+	public int removeLeave(int leaveId) throws ResourceNotFoundException {
+		int retLeave;
+		Leave toDelete= leaveRep.findById(leaveId).orElseThrow(() -> new ResourceNotFoundException("Leave not found for this id :: " + leaveId));
+		retLeave=(toDelete!=null)?toDelete.getLeaveId():-1;
+		leaveRep.deleteId(leaveId);
 		log.info("removed leave");
-		return leaveRep.findById(leaveId).isEmpty()?-1:leaveId;
+		return retLeave;
 	}
 	
 	

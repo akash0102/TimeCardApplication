@@ -10,6 +10,6 @@ public interface EmployeeService {
 	Employee updateEmployee(Integer employeeId, Employee employeeDetails) throws ResourceNotFoundException;
 	boolean deleteEmployeeById(Integer employeeId) throws ResourceNotFoundException;
 	List<Employee> getAllEmployee();
-	Employee getEmpById(int empId);
+	Employee getEmpById(int empId) throws ResourceNotFoundException;
 
 }

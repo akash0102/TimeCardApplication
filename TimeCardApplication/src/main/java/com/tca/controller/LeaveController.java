@@ -39,7 +39,7 @@ public class LeaveController {
 	
 	@ApiOperation(value = "add leave", response = Leave.class, tags = "LeaveControllerClass")
 	@PostMapping("/apply/{emp_id}")
-	public Leave addLeave(@RequestBody Leave leave ,@PathVariable("emp_id") Integer empId ) {
+	public Leave addLeave(@RequestBody Leave leave ,@PathVariable("emp_id") Integer empId ) throws ResourceNotFoundException {
 		Employee emp=empSer.getEmpById(empId);
 		if(emp!=null) {
 			leave.setEmployee(emp); 
@@ -55,7 +55,7 @@ public class LeaveController {
 	 
 	@DeleteMapping("/deleteLeaveById/leaveId/{leaveId}")
 	@ApiOperation(value = "delete leave", response = Leave.class, tags = "LeaveControllerClass")
-	public int removeLeave(@PathVariable Integer leaveId){
+	public int removeLeave(@PathVariable Integer leaveId) throws ResourceNotFoundException{
 		return leaveservice.removeLeave(leaveId); 
 	}
 	

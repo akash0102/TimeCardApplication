@@ -51,7 +51,7 @@ public class AttendanceController {
 	
 	@ApiOperation(value = "saves attendance to the database", response = Attendance.class, tags = "AttendanceControllerClass")
 	@PostMapping("/saveAttendance/{emp_id}")
-	public ResponseEntity<Attendance> saveAttendance(@PathVariable("emp_id") Integer empId,@RequestBody Attendance att) {
+	public ResponseEntity<Attendance> saveAttendance(@PathVariable("emp_id") Integer empId,@RequestBody Attendance att) throws ResourceNotFoundException {
 		
 		Employee emp=empSer.getEmpById(empId);
 		att.setEmployee(emp);

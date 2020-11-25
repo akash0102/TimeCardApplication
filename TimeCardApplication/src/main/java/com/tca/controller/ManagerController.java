@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tca.exception.ResourceNotFoundException;
-import com.tca.entity.Leave;
 import com.tca.entity.Manager;
 import com.tca.service.ManagerService;
 

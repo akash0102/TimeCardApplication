@@ -50,7 +50,7 @@ public class TimeCardController {
 	@ApiOperation(value = "enter timecard entry", response = TimeCard.class, tags = "TimeCardControllerClass")
 	@PostMapping("/timecardEntry/")
 	public ResponseEntity<TimeCard> createTimeCard(
-					@RequestBody TimeCard tca ) {
+					@RequestBody TimeCard tca ) throws ResourceNotFoundException {
 		Employee employee=empSer.getEmpById(tca.getEmployee().getEmployeeId());
 		if(employee!=null)
 			tca.setEmployee(employee);

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tca.exception.ResourceNotFoundException;
-import com.tca.entity.Attendance;
 import com.tca.entity.Employee;
 import com.tca.entity.Manager;
 import com.tca.service.EmployeeService;
@@ -83,7 +82,7 @@ public class EmployeeController {
 	
 	@GetMapping("/{id}")
 	@ApiOperation(value = "fetch employee by id", response = Employee.class, tags = "EmployeeControllerClass")
-	public ResponseEntity<Employee> getEmployeeById(@PathVariable(value="id")Integer id){
+	public ResponseEntity<Employee> getEmployeeById(@PathVariable(value="id")Integer id) throws ResourceNotFoundException{
 		log.info("fetched employee with id "+id);
 		return ResponseEntity.ok(employeeService.getEmpById(id));
 	}
