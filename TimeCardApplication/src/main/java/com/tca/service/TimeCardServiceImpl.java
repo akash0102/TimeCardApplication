@@ -60,4 +60,13 @@ public class TimeCardServiceImpl implements TimeCardService {
 		log.info("all entries");
 		return daoCaller.findAll();
 	}
+
+	@Override
+	public TimeCard getTimeCard(Integer tcId) {
+		TimeCard opt=null;
+		if(daoCaller.findById(tcId).isPresent()) {
+			opt=daoCaller.findById(tcId).get();
+		}
+		return opt;
+	}
 }

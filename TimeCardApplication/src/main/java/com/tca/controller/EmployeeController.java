@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,10 +30,10 @@ import io.swagger.annotations.ApiOperation;
  * @author usha
  * controller class for attendance
  */
-
+@CrossOrigin(origins = "http://localhost:3000")
 @Api(value = "EmployeeControllerClass",description = "This is class for employee controller")
 @RestController
-@RequestMapping("/api/v2/Employee")
+@RequestMapping("/api/v2/employees")
 public class EmployeeController {
 	
 	Logger log=Logger.getLogger(getClass());
@@ -45,10 +46,12 @@ public class EmployeeController {
 	
 	
 	@GetMapping("/all")
-	@ApiOperation(value = "update attendance ", response = Iterable.class, tags = "EmployeeControllerClass")
-	public ResponseEntity<List<Employee>> getAllEmployee() {
-		return ResponseEntity.ok(employeeService.getAllEmployee()); 
-	} 
+	@ApiOperation(value = "get all employees ", response = Iterable.class, tags = "EmployeeControllerClass")
+	public List<Employee> getAllEmployee() {
+		return employeeService.getAllEmployee();
+	}
+	
+	
 	
 	@PostMapping("/CreateEmployee/{man_id}")
 	@ApiOperation(value = "save employee ", response = Employee.class, tags = "EmployeeControllerClass")
@@ -78,12 +81,12 @@ public class EmployeeController {
 						throws ResourceNotFoundException{
 		log.info("deleted employee");
 		return ResponseEntity.ok(employeeService.deleteEmployeeById(employeeId));
-	}  
+	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/getById/{id}")
 	@ApiOperation(value = "fetch employee by id", response = Employee.class, tags = "EmployeeControllerClass")
-	public ResponseEntity<Employee> getEmployeeById(@PathVariable(value="id")Integer id) throws ResourceNotFoundException{
-		log.info("fetched employee with id "+id);
-		return ResponseEntity.ok(employeeService.getEmpById(id));
+	public Employee getEmployeeById(@PathVariable(value="id")String empId) throws ResourceNotFoundException{
+		log.info("fetched employee with id "+empId);
+		return employeeService.getEmpById(Integer.parseInt(empId));
 	}
 }

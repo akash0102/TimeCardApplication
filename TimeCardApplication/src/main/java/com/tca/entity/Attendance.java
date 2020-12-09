@@ -13,14 +13,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 
 @Entity
 @Table(name="ATTENDANCE")
-@NamedQuery(name = "Attendance.getAllById", query = "SELECT t FROM Attendance t where t.employee=:emp")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Attendance implements Serializable{  
 	/**
 	 * 

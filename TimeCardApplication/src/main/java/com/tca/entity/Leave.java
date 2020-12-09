@@ -6,18 +6,15 @@ import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="LEAVE")
-@NamedQuery(name = "Leave.getAllById", query = "SELECT l FROM Leave l where l.employee=:emp")
 public class Leave implements Serializable{
     
 	 /**
@@ -28,7 +25,7 @@ public class Leave implements Serializable{
 	@Column(name="LEAVE_ID")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int leaveId;
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="EMP_ID")
 	private Employee employee;
 	@Column(name="STATUS")

@@ -61,6 +61,9 @@ public class AttendanceServiceImpl implements AttendanceService {
 	@Override
 	public Attendance saveAttendanceDetails(Attendance att) {
 		log.info("attendance saved succesfully");
+		if(att.getToDate()==null) {
+			att.setToDate(att.getFromDate());
+		}
 		return attdetails.save(att);
 	}
 	

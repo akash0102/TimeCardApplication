@@ -13,8 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TimeCardApplication {
 	
     public static void main(String[] args) {
-        SpringApplication.run(TimeCardApplication.class, args); 
-        
+        SpringApplication.run(TimeCardApplication.class, args);
     } 
 
 }

@@ -3,7 +3,7 @@ package com.tca.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +28,7 @@ import io.swagger.annotations.ApiOperation;
  * @author pavan
  * controller class for leave service
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v2/leave")
 public class LeaveController {
@@ -43,6 +44,7 @@ public class LeaveController {
 		Employee emp=empSer.getEmpById(empId);
 		if(emp!=null) {
 			leave.setEmployee(emp); 
+			leave.setStatus("Pending");
 		}
 		return leaveservice.addLeave(leave);
 	}
@@ -53,7 +55,7 @@ public class LeaveController {
 		return leaveservice.findLeave(leaveId); 
 	}
 	 
-	@DeleteMapping("/deleteLeaveById/leaveId/{leaveId}")
+	@DeleteMapping("/deleteLeaveById/{leaveId}")
 	@ApiOperation(value = "delete leave", response = Leave.class, tags = "LeaveControllerClass")
 	public int removeLeave(@PathVariable Integer leaveId) throws ResourceNotFoundException{
 		return leaveservice.removeLeave(leaveId); 
@@ -67,8 +69,9 @@ public class LeaveController {
 	
 	@ApiOperation(value = "find leave", response = Iterable.class, tags = "LeaveControllerClass")
 	@GetMapping("/getAllLeaves/{emp_id}")
-	public ResponseEntity<List<Leave>> getAllLeaves(@PathVariable("emp_id") Integer empId) {
-		return ResponseEntity.ok(leaveservice.findByEmpId(empId));
+	public List<Leave> getAllLeaves(@PathVariable("emp_id") Integer empId) {
+		return leaveservice.findByEmpId(empId);
 	}
+
 
 }

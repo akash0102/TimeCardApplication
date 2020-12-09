@@ -11,13 +11,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="TIMECARD")
-@NamedQuery(name = "TimeCard.getAllById", query = "SELECT t FROM TimeCard t where t.employee=:emp")
 public class TimeCard implements Serializable{
 	
 	/**

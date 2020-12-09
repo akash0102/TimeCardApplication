@@ -3,7 +3,7 @@ package com.tca.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +29,7 @@ import io.swagger.annotations.ApiOperation;
  * controller class for timecard
  */
 
+@CrossOrigin(origins = "http://localhost:3000")
 @Api(value = "TimeCardControllerClass",description = "This is class for employee controller")
 @RestController 
 @RequestMapping("/api/v2/timecard")
@@ -42,41 +43,45 @@ public class TimeCardController {
 	
 	@ApiOperation(value = "get timecards by employee id", response = Iterable.class, tags = "TimeCardControllerClass")
 	@GetMapping("/employee/{id}")
-	public ResponseEntity<List<TimeCard>> getEmployeeById(@PathVariable(value = "id") Integer employeeId){
-		List<TimeCard> timecard = tcs.displayEntries(employeeId);
-		return ResponseEntity.ok().body(timecard);
+	public List<TimeCard> getEmployeeById(@PathVariable(value = "id") Integer employeeId){
+		return tcs.displayEntries(employeeId);
+	}
+	
+	@ApiOperation(value = "get timecards by employee id", response = Iterable.class, tags = "TimeCardControllerClass")
+	@GetMapping("/getTimeCard/{id}")
+	public TimeCard getTimeCardById(@PathVariable(value = "id") Integer tcId){
+		return tcs.getTimeCard(tcId);
 	}
 	
 	@ApiOperation(value = "enter timecard entry", response = TimeCard.class, tags = "TimeCardControllerClass")
-	@PostMapping("/timecardEntry/")
-	public ResponseEntity<TimeCard> createTimeCard(
-					@RequestBody TimeCard tca ) throws ResourceNotFoundException {
-		Employee employee=empSer.getEmpById(tca.getEmployee().getEmployeeId());
+	@PostMapping("/timecardEntry/{emp_id}")
+	public TimeCard createTimeCard( @RequestBody TimeCard tca, @PathVariable(value = "emp_id") Integer empId ) throws ResourceNotFoundException {
+		Employee employee=empSer.getEmpById(empId);
 		if(employee!=null)
 			tca.setEmployee(employee);
-		tca.setStatus("Pending"); 
-		return ResponseEntity.ok().body(tcs.saveTimeEntry(tca)); 
+		tca.setStatus("Pending");
+		return tcs.saveTimeEntry(tca); 
 	}
 	
 	@ApiOperation(value = "edit timecard entry", response = Integer.class, tags = "TimeCardControllerClass")
 	@PutMapping("/timeCardEdit/{tc_id}")
-	public ResponseEntity<Integer> editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody TimeCard tcard) throws ResourceNotFoundException{
+	public Integer editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody TimeCard tcard) throws ResourceNotFoundException{
 		
-		return ResponseEntity.ok(tcs.updateEntries(id, tcard));
+		return tcs.updateEntries(id, tcard);
 	}
 	
 	
 	@ApiOperation(value = "delete timecard entry", response = Boolean.class, tags = "TimeCardControllerClass")
 	@DeleteMapping("/timecardDelete/{id}")
-	public ResponseEntity<Boolean> deleteTimeCard(@PathVariable("id") Integer id ) throws ResourceNotFoundException{
-		return ResponseEntity.ok(tcs.removeEntry(id));
+	public Boolean deleteTimeCard(@PathVariable("id") Integer id ) throws ResourceNotFoundException{
+		return tcs.removeEntry(id);
 	}
 	
 	@ApiOperation(value = "get all timecards", response = Iterable.class, tags = "TimeCardControllerClass")
 	@GetMapping("/timecards")
-	public ResponseEntity<List<TimeCard>> getAllEntries(){
+	public List<TimeCard> getAllEntries(){
 		List<TimeCard> timecard = tcs.displayAll();
-		return ResponseEntity.ok().body(timecard);
+		return timecard;
 	}
 	
 }

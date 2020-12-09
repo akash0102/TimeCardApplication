@@ -17,5 +17,7 @@ public interface TimeCardService {
 	List<TimeCard> displayEntries(int employeeId);
 
 	List<TimeCard> displayAll();
+
+	TimeCard getTimeCard(Integer tcId);
 	
 }

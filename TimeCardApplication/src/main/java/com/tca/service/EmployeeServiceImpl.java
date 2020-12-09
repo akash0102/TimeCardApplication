@@ -36,7 +36,6 @@ public class EmployeeServiceImpl implements EmployeeService{
  public Employee updateEmployee( Integer employeeId, Employee employeeDetails) throws ResourceNotFoundException {
 	Employee employee = employeeRepository.findById(employeeId)
 			.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
-	employee.setEmployeeId(employeeDetails.getEmployeeId()); 
 	employee.setEmployeeName(employeeDetails.getEmployeeName());
 	employee.setEmployeeEmail(employeeDetails.getEmployeeEmail());
 	employee.setPhoneNumber(employeeDetails.getPhoneNumber());
@@ -58,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService{
  	public List<Employee> getAllEmployee() {
  		log.info("list of employees fetched");
 		return employeeRepository.findAll();
-	} 
+	}
 
 	@Override
 	public Employee getEmpById(int empId) throws ResourceNotFoundException {

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +33,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/api/v2")
+@CrossOrigin(origins = "http://localhost:3000")
 @Api(value = "AttendanceControllerClass",description = "This is class for attendance controller")
 public class AttendanceController {
 	
@@ -42,16 +43,16 @@ public class AttendanceController {
 	@Autowired
 	private EmployeeService empSer;
 	
-	@ApiOperation(value = "Get list of attendance in the System ", response = Iterable.class, tags = "AttendanceControllerClass")
+	@ApiOperation(value = "Get list of attendance in the System ", response = Iterable.class)
 	@GetMapping("/getAllAttendance")
 	public List<Attendance> getAllAttendance() {
 		log.info("returned List");
 		return attendanceService.getAllAttendance(); 
 	}
 	
-	@ApiOperation(value = "saves attendance to the database", response = Attendance.class, tags = "AttendanceControllerClass")
+	@ApiOperation(value = "saves attendance to the database", response = Attendance.class)
 	@PostMapping("/saveAttendance/{emp_id}")
-	public ResponseEntity<Attendance> saveAttendance(@PathVariable("emp_id") Integer empId,@RequestBody Attendance att) throws ResourceNotFoundException {
+	public Attendance saveAttendance(@PathVariable("emp_id") Integer empId,@RequestBody Attendance att) throws ResourceNotFoundException {
 		
 		Employee emp=empSer.getEmpById(empId);
 		att.setEmployee(emp);
@@ -65,32 +66,43 @@ public class AttendanceController {
 			att=resultAttendance;
 		}
 		log.info("return attendance");
-		return ResponseEntity.ok().body(att);
+		return att;
 	}
 
-	@ApiOperation(value = " gets attendance by employee id ", response = Iterable.class, tags = "AttendanceControllerClass")
+	@ApiOperation(value = " gets attendance by employee id ", response = Iterable.class)
 	@GetMapping("/getAttendance/{id}")
-	public ResponseEntity<List<Attendance>> getAttendanceById(@PathVariable(value = "id") Integer employeeId)
+	public List<Attendance> getAttendanceById(@PathVariable(value = "id") Integer employeeId)
 					throws ResourceNotFoundException {
 		List<Attendance> atts = attendanceService.getAttendanceByEmpId(employeeId);
 		log.info("leave based on employee id fetched");
-		return ResponseEntity.ok().body(atts);
+		return atts;
 	}
 
-	@ApiOperation(value = "update attendance ", response = Attendance.class, tags = "AttendanceControllerClass")
+	
+	@ApiOperation(value = " gets attendance by attendance id ", response = Iterable.class)
+	@GetMapping("/getAttendanceId/{id}")
+	public Attendance getByAttendanceId(@PathVariable(value = "id") Integer attendanceId)
+					throws ResourceNotFoundException {
+		Attendance atts = attendanceService.getAttendanceById(attendanceId);
+		log.info("leave based on employee id fetched");
+		return atts;
+	}
+	
+	@ApiOperation(value = "update attendance ", response = Attendance.class)
 	@PutMapping("/updateAttendance/{id}") 
-	public ResponseEntity<Attendance> updateAttendanceById(@PathVariable(value = "id") Integer attendanceId,@RequestBody Attendance att) throws ResourceNotFoundException {
+	public Attendance updateAttendanceById(@PathVariable(value = "id") Integer attendanceId,@RequestBody Attendance att) throws ResourceNotFoundException {
 		log.info("attendance updated");
-		return ResponseEntity.ok(attendanceService.updateAttendanceById(attendanceId, att));
+		att.setStatus("Pending");
+		return attendanceService.updateAttendanceById(attendanceId, att);
 	}
 
-	@ApiOperation(value = "deleting attendance ", response = Boolean.class, tags = "AttendanceControllerClass")
+	@ApiOperation(value = "deleting attendance ", response = Boolean.class)
 	@DeleteMapping("/deleteAttendance/{id}")
-	public ResponseEntity<Boolean> deleteAttendance(@PathVariable(value = "id") Integer attendanceId)
+	public Boolean deleteAttendance(@PathVariable(value = "id") Integer attendanceId)
 					throws ResourceNotFoundException {
 		Boolean att1 = attendanceService.deleteAttendanceByEmpId(attendanceId);
 		log.info("attendance deleted");
-		return ResponseEntity.ok(att1);
+		return att1;
 	}
 
 }
